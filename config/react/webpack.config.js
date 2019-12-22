@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+const fs = require('fs')
 const paths = require('./paths')
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
@@ -33,7 +34,7 @@ module.exports = webpackEnv => {
             // if there are any conflicts. This matches Node resolution mechanism.
             // https://github.com/facebook/create-react-app/issues/253
             modules: ['node_modules', paths.appNodeModules].concat(
-                modules.additionalModulePaths || []
+                // modules.additionalModulePaths || []
             ),
             // These are the reasonable defaults supported by the Node ecosystem.
             // We also include JSX as a common component filename extension to support
@@ -50,6 +51,48 @@ module.exports = webpackEnv => {
             rules: [
                 // Disable require.ensure as it's not a standard language feature.
                 { parser: { requireEnsure: false } },
+                {
+                    // "oneOf" will traverse all following loaders until one will
+                    // match the requirements. When no loader matches it will fall
+                    // back to the "file" loader at the end of the loader list.
+                    oneOf: [
+                        // Process application JS with Babel.
+                        // The preset includes JSX, Flow, TypeScript, and some ESnext features.
+                        {
+                            test: /\.(js|mjs|jsx|ts|tsx)$/,
+                            include: paths.appSrc,
+                            loader: require.resolve('babel-loader'),
+                            options: {
+                                customize: require.resolve(
+                                    'babel-preset-react-app/webpack-overrides'
+                                ),
+
+                                plugins: [
+                                    [
+                                        require.resolve(
+                                            'babel-plugin-named-asset-import'
+                                        ),
+                                        {
+                                            loaderMap: {
+                                                svg: {
+                                                    ReactComponent:
+                                                        '@svgr/webpack?-svgo,+titleProp,+ref![path]'
+                                                }
+                                            }
+                                        }
+                                    ]
+                                ],
+                                // This is a feature of `babel-loader` for webpack (not Babel itself).
+                                // It enables caching results in ./node_modules/.cache/babel-loader/
+                                // directory for faster rebuilds.
+                                cacheDirectory: true,
+                                // See create-react-app #6846 for context on why cacheCompression is disabled
+                                cacheCompression: false,
+                                compact: isEnvProduction
+                            }
+                        }
+                    ]
+                }
             ]
         }
     }
