@@ -13,7 +13,8 @@
   ],
   "scripts": {
     "commit": "git-cz",
-    "build:dashboard": "node scripts/react/build.js applications/dashboard"
+    "build:dashboard": "node scripts/react/build.js applications/dashboard",
+    "start:dashboard": "node scripts/react/start.js applications/dashboard"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
@@ -34,7 +35,8 @@
     "lint-staged": "^9.5.0",
     "prettier": "^1.19.1",
     "url-loader": "^3.0.0",
-    "webpack": "^4.41.4"
+    "webpack": "^4.41.4",
+    "webpack-dev-server": "^3.10.1"
   },
   "husky": {
     "hooks": {

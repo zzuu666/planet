@@ -160,3 +160,6 @@ Temporary Items
 
 # react app build path
 build/
+
+# vscode setting
+.vscode

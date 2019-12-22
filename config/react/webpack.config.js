@@ -1,5 +1,7 @@
 const webpack = require('webpack')
 const fs = require('fs')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 const paths = require('./paths')
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
@@ -33,9 +35,10 @@ module.exports = webpackEnv => {
             // We placed these paths second because we want `node_modules` to "win"
             // if there are any conflicts. This matches Node resolution mechanism.
             // https://github.com/facebook/create-react-app/issues/253
-            modules: ['node_modules', paths.appNodeModules].concat(
+            modules: ['node_modules', paths.appNodeModules]
+                .concat
                 // modules.additionalModulePaths || []
-            ),
+                (),
             // These are the reasonable defaults supported by the Node ecosystem.
             // We also include JSX as a common component filename extension to support
             // some tools, although we do not recommend using it, see:
@@ -94,6 +97,34 @@ module.exports = webpackEnv => {
                     ]
                 }
             ]
-        }
+        },
+        plugins: [
+            // Generates an `index.html` file with the <script> injected.
+            new HtmlWebpackPlugin(
+                Object.assign(
+                    {},
+                    {
+                        inject: true,
+                        template: paths.appHtml
+                    },
+                    isEnvProduction
+                        ? {
+                              minify: {
+                                  removeComments: true,
+                                  collapseWhitespace: true,
+                                  removeRedundantAttributes: true,
+                                  useShortDoctype: true,
+                                  removeEmptyAttributes: true,
+                                  removeStyleLinkTypeAttributes: true,
+                                  keepClosingSlash: true,
+                                  minifyJS: true,
+                                  minifyCSS: true,
+                                  minifyURLs: true
+                              }
+                          }
+                        : undefined
+                )
+            )
+        ]
     }
 }
