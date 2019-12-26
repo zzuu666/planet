@@ -10,7 +10,8 @@
     "overrides": [
         {
             "files": [
-                "applications/dashboard/**/*"
+                "applications/dashboard/**/*",
+                "packages/planet-ui-icons/**/*"
             ],
             "extends": "react-app"
         }

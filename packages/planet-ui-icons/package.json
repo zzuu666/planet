@@ -14,7 +14,9 @@
     "url": "git+https://github.com/zzuu666/planet.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "build": "cross-env NODE_ENV=production BABEL_ENV=cjs babel --config-file ../../babel.config.js ./src --out-dir ./build --extensions \".tsx\"",
+    "prebuild": "rimraf build",
+    "release": "npm run build && npm publish build --tag latest"
   },
   "bugs": {
     "url": "https://github.com/zzuu666/planet/issues"

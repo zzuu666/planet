@@ -17,10 +17,12 @@
     "start:dashboard": "node scripts/react/start.js applications/dashboard"
   },
   "devDependencies": {
+    "@babel/cli": "^7.7.7",
     "@babel/core": "^7.7.7",
     "@babel/plugin-transform-runtime": "^7.7.6",
     "@babel/preset-env": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
+    "@babel/preset-typescript": "^7.7.7",
     "@types/draft-js": "^0.10.37",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
@@ -33,6 +35,7 @@
     "case-sensitive-paths-webpack-plugin": "^2.2.0",
     "chalk": "^3.0.0",
     "commitizen": "^4.0.3",
+    "cross-env": "^6.0.3",
     "cz-conventional-changelog": "^3.0.2",
     "dotenv": "^8.2.0",
     "dotenv-expand": "^5.1.0",
@@ -53,6 +56,7 @@
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-safe-parser": "^4.0.1",
     "prettier": "^1.19.1",
+    "rimraf": "^3.0.0",
     "terser-webpack-plugin": "^2.3.1",
     "typescript": "^3.7.4",
     "url-loader": "^3.0.0",
