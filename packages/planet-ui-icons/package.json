@@ -6,7 +6,6 @@
   "homepage": "https://github.com/zzuu666/planet#readme",
   "license": "MIT",
   "publishConfig": {
-    "registry": "https://registry.yarnpkg.com",
     "access": "public"
   },
   "repository": {
@@ -21,5 +20,6 @@
   "bugs": {
     "url": "https://github.com/zzuu666/planet/issues"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "gitHead": "da72c7eba99aa92e75151bd42702de2092673455"
 }
