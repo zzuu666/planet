@@ -1,0 +1,23 @@
+{
+  "name": "@planet-ui/icons",
+  "version": "0.0.0",
+  "description": "planet-ui icons fork from material-ui",
+  "author": "zzuu666 <zzuu666@outlook.com>",
+  "homepage": "https://github.com/zzuu666/planet#readme",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://registry.yarnpkg.com",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zzuu666/planet.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/zzuu666/planet/issues"
+  },
+  "sideEffects": false
+}
