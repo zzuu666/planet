@@ -50,6 +50,29 @@ module.exports = webpackEnv => {
     // Get environment variables to inject into our app.
     const env = getClientEnvironment(publicUrl)
 
+    // style files regexes
+    const cssRegex = /\.css$/
+    const cssModuleRegex = /\.module\.css$/
+
+    // common function to get style loaders
+    const getStyleLoaders = cssOptions => {
+        const loaders = [
+            isEnvDevelopment && require.resolve('style-loader'),
+            isEnvProduction && {
+                loader: MiniCssExtractPlugin.loader,
+                options: shouldUseRelativeAssetPaths
+                    ? { publicPath: '../../' }
+                    : {}
+            },
+            {
+                loader: require.resolve('css-loader'),
+                options: cssOptions
+            }
+        ].filter(Boolean)
+
+        return loaders
+    }
+
     return {
         mode: isEnvProduction
             ? 'production'
@@ -170,10 +193,7 @@ module.exports = webpackEnv => {
             // We placed these paths second because we want `node_modules` to "win"
             // if there are any conflicts. This matches Node resolution mechanism.
             // https://github.com/facebook/create-react-app/issues/253
-            modules: ['node_modules', paths.appNodeModules]
-                .concat
-                // modules.additionalModulePaths || []
-                (),
+            modules: ['node_modules', paths.appNodeModules],
             // These are the reasonable defaults supported by the Node ecosystem.
             // We also include JSX as a common component filename extension to support
             // some tools, although we do not recommend using it, see:
@@ -228,7 +248,50 @@ module.exports = webpackEnv => {
                                 cacheCompression: false,
                                 compact: isEnvProduction
                             }
+                        },
+
+                        // "postcss" loader applies autoprefixer to our CSS.
+                        // "css" loader resolves paths in CSS and adds assets as dependencies.
+                        // "style" loader turns CSS into JS modules that inject <style> tags.
+                        // In production, we use MiniCSSExtractPlugin to extract that CSS
+                        // to a file, but in development "style" loader enables hot editing
+                        // of CSS.
+                        // By default we support CSS Modules with the extension .module.css
+                        {
+                            test: cssRegex,
+                            exclude: cssModuleRegex,
+                            use: getStyleLoaders({
+                                importLoaders: 1,
+                                sourceMap: isEnvProduction && shouldUseSourceMap
+                            }),
+                            // Don't consider CSS imports dead code even if the
+                            // containing package claims to have no side effects.
+                            // Remove this when webpack adds a warning or an error for this.
+                            // See https://github.com/webpack/webpack/issues/6571
+                            sideEffects: true
+                        },
+                        // "file" loader makes sure those assets get served by WebpackDevServer.
+                        // When you `import` an asset, you get its (virtual) filename.
+                        // In production, they would get copied to the `build` folder.
+                        // This loader doesn't use a "test" so it will catch all modules
+                        // that fall through the other loaders.
+                        {
+                            loader: require.resolve('file-loader'),
+                            // Exclude `js` files to keep "css" loader working as it injects
+                            // its runtime that would otherwise be processed through "file" loader.
+                            // Also exclude `html` and `json` extensions so they get processed
+                            // by webpacks internal loaders.
+                            exclude: [
+                                /\.(js|mjs|jsx|ts|tsx)$/,
+                                /\.html$/,
+                                /\.json$/
+                            ],
+                            options: {
+                                name: 'static/media/[name].[hash:8].[ext]'
+                            }
                         }
+                        // ** STOP ** Are you adding a new loader?
+                        // Make sure to add the new loader(s) before the "file" loader.
                     ]
                 }
             ]
