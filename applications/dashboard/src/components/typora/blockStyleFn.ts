@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/styles'
-import { ContentBlock,  } from 'draft-js'
+import { ContentBlock } from 'draft-js'
 
 export const useBlockStyles = makeStyles({
     blockquote: {
@@ -11,8 +11,6 @@ export type BlockStyleClasses = Record<'blockquote', string>
 
 export const createBlockStyleFn = (classes: BlockStyleClasses) => (contentBlock: ContentBlock) => {
     const type = contentBlock.getType()
-
-    console.log(type)
 
     switch (type) {
         case 'blockquote':
