@@ -70,22 +70,27 @@ export const ToolBar: FC<IToolBarProps> = props => {
         onChange(newEditorState)
     }, [onChange, editorState])
 
+    /**
+     * get current content type and style
+     *
+     * @see https://draftjs.org/docs/api-reference-content-block
+     */
     const blockInfo: IBlockInfo = useMemo(() => {
         const selection = editorState.getSelection()
+        const currentInlineStyle = editorState.getCurrentInlineStyle()
+        // difference between anchor and foucs
+        // see https://developer.mozilla.org/en-US/docs/Web/API/Selection
         const anchorKey = selection.getAnchorKey()
-        const anchorOffset = selection.getAnchorOffset()
         const content = editorState.getCurrentContent()
         const currentContentBlock = content.getBlockForKey(anchorKey)
         const contentBlockType = currentContentBlock.getType()
-        const contentBlockStyle = currentContentBlock.getInlineStyleAt(
-            anchorOffset
-        )
 
-        console.log(contentBlockStyle.toArray())
+        // Others can get from selection
+        // see https://draftjs.org/docs/api-reference-selection-state
 
         return {
             type: contentBlockType,
-            style: contentBlockStyle
+            style: currentInlineStyle
         }
     }, [editorState])
 

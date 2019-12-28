@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useState, useCallback, useMemo, useRef } from 'react'
 import { Editor, EditorState, RichUtils } from 'draft-js'
 import { makeStyles } from '@material-ui/styles'
 import { useBlockStyles, createBlockStyleFn } from './blockStyleFn'
@@ -23,6 +23,8 @@ export const Typora = props => {
 
     const blockClasses = useBlockStyles()
 
+    const editorRef = useRef<Editor>(null)
+
     const blockStyleFn = useMemo(() => createBlockStyleFn(blockClasses), [blockClasses])
 
     const handleKeyCommand = useCallback((command, prevEditorState: EditorState) => {
@@ -42,10 +44,22 @@ export const Typora = props => {
         return 'not-handled'
     }, [])
 
+    // make eidtor be focused after click toolbar
+    const handleContainerClick = useCallback(() => {
+        if (editorRef.current === null) return
+
+        // focus lead to editorState changed
+        // use settimeout avoid race conditions
+        setTimeout(() => {
+            editorRef.current && editorRef.current.focus()
+        }, 0)
+    }, [])
+
     return (
-        <div className={classes.root}>
+        <div className={classes.root} onClick={handleContainerClick}>
             <ToolBar editorState={editorState} onChange={setEditorState} />
             <Editor
+                ref={editorRef}
                 editorState={editorState}
                 onChange={setEditorState}
                 handleKeyCommand={handleKeyCommand}
