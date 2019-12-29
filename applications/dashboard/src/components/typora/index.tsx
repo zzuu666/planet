@@ -5,6 +5,7 @@ import { useBlockStyles, createBlockStyleFn } from './blockStyleFn'
 import { keyBindingFn } from './keyBindingFn'
 import { SideButton } from './SideButton'
 import { ToolBar } from './Toolbar'
+import { blockRendererFn } from './blockRendererFn'
 
 import 'draft-js/dist/Draft.css'
 
@@ -44,15 +45,21 @@ export const Typora = props => {
         return 'not-handled'
     }, [])
 
+    const handleReturn = useCallback(() => {
+
+    }, [])
+
     // make eidtor be focused after click toolbar
     const handleContainerClick = useCallback(() => {
         if (editorRef.current === null) return
+
+        console.log('need fo')
 
         // focus lead to editorState changed
         // use settimeout avoid race conditions
         setTimeout(() => {
             editorRef.current && editorRef.current.focus()
-        }, 0)
+        }, 20)
     }, [])
 
     return (
@@ -64,10 +71,11 @@ export const Typora = props => {
                 onChange={setEditorState}
                 handleKeyCommand={handleKeyCommand}
                 blockStyleFn={blockStyleFn}
+                blockRendererFn={blockRendererFn}
                 keyBindingFn={keyBindingFn}
                 placeholder="Tell your story"
             />
-            <SideButton editorState={editorState} />
+            <SideButton editorState={editorState} onChange={setEditorState} />
         </div>
     )
 }

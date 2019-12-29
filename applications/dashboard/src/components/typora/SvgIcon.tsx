@@ -9,8 +9,6 @@ export const SvgIcon: FC = (props) => {
         viewBox: '0 0 24 24'
     })
 
-
-
     return NewSvg
 }
 

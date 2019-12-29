@@ -1,6 +1,11 @@
 import React, { FC, useCallback, useMemo, SyntheticEvent } from 'react'
 import { makeStyles } from '@material-ui/styles'
-import { EditorState, RichUtils, DraftBlockType, DraftInlineStyle } from 'draft-js'
+import {
+    EditorState,
+    RichUtils,
+    DraftBlockType,
+    DraftInlineStyle
+} from 'draft-js'
 import TitleRounded from '@planet-ui/icons/build/TitleRounded'
 import BoldRounded from '@planet-ui/icons/build/FormatBoldRounded'
 
@@ -50,25 +55,30 @@ export const ToolBar: FC<IToolBarProps> = props => {
 
     const classes = useStyles()
 
-    const handleButtonClick = useCallback((event: SyntheticEvent<HTMLButtonElement>) => {
-        if (!onChange) {
-            return;
-        }
+    const handleButtonClick = useCallback(
+        (event: SyntheticEvent<HTMLButtonElement>) => {
+            if (!onChange) {
+                return
+            }
 
-        const { name, type } = event.currentTarget.dataset
+            const { name, type } = event.currentTarget.dataset
 
-        const toggleUtils =
-            (type as ButtonType) === 'BLOCKTYPE' ? RichUtils.toggleBlockType
-                : (type as ButtonType) === 'BLOCKSTYLING' && RichUtils.toggleInlineStyle
+            const toggleUtils =
+                (type as ButtonType) === 'BLOCKTYPE'
+                    ? RichUtils.toggleBlockType
+                    : (type as ButtonType) === 'BLOCKSTYLING' &&
+                      RichUtils.toggleInlineStyle
 
-        if (!toggleUtils) {
-            return;
-        }
+            if (!toggleUtils) {
+                return
+            }
 
-        const newEditorState = toggleUtils(editorState, name as string)
+            const newEditorState = toggleUtils(editorState, name as string)
 
-        onChange(newEditorState)
-    }, [onChange, editorState])
+            onChange(newEditorState)
+        },
+        [onChange, editorState]
+    )
 
     /**
      * get current content type and style
@@ -123,11 +133,7 @@ export const ToolBar: FC<IToolBarProps> = props => {
                         data-type={info.type}
                         data-name={info.name}
                     >
-                        <info.icon
-                            color={
-                                info.isActive ? 'green' : '#fff'
-                            }
-                        />
+                        <info.icon color={info.isActive ? 'green' : '#fff'} />
                     </button>
                 </li>
             ))}
