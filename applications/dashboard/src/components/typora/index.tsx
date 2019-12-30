@@ -1,11 +1,25 @@
-import React, { useState, useCallback, useMemo, useRef } from 'react'
-import { Editor, EditorState, RichUtils } from 'draft-js'
+import React, {
+    useState,
+    useCallback,
+    useMemo,
+    useRef,
+    useEffect,
+    RefObject
+} from 'react'
+import {
+    Editor,
+    EditorState,
+    RichUtils,
+    DefaultDraftBlockRenderMap
+} from 'draft-js'
 import { makeStyles } from '@material-ui/styles'
 import { useBlockStyles, createBlockStyleFn } from './blockStyleFn'
 import { keyBindingFn } from './keyBindingFn'
 import { SideButton } from './SideButton'
 import { ToolBar } from './Toolbar'
 import { blockRendererFn } from './blockRendererFn'
+import { blockRenderMap } from './blockRenderMap'
+import { createTitleEditorState } from './editorStateWithTitle'
 
 import 'draft-js/dist/Draft.css'
 
@@ -15,10 +29,35 @@ const useStyles = makeStyles({
         width: '100%',
         padding: '0 60px'
     }
-});
+})
+
+const extendBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap)
+
+/**
+ * Make eidtor in focus when it blur
+ * // TODO
+ * Editor should blur when click away from editor container
+ *
+ * @param editorState
+ * @param editorRef
+ */
+const useAutoFocus = (
+    editorState: EditorState,
+    editorRef: RefObject<Editor>
+) => {
+    useEffect(() => {
+        if (!editorRef.current) return
+
+        const selectionState = editorState.getSelection()
+
+        if (!selectionState.getHasFocus()) {
+            editorRef.current.focus()
+        }
+    }, [editorState, editorRef])
+}
 
 export const Typora = props => {
-    const [editorState, setEditorState] = useState(EditorState.createEmpty())
+    const [editorState, setEditorState] = useState(createTitleEditorState())
 
     const classes = useStyles()
 
@@ -26,28 +65,36 @@ export const Typora = props => {
 
     const editorRef = useRef<Editor>(null)
 
-    const blockStyleFn = useMemo(() => createBlockStyleFn(blockClasses), [blockClasses])
+    const blockStyleFn = useMemo(() => createBlockStyleFn(blockClasses), [
+        blockClasses
+    ])
 
-    const handleKeyCommand = useCallback((command, prevEditorState: EditorState) => {
-        if (command === 'myeditor-save') {
-            const newEditorState = RichUtils.toggleBlockType(prevEditorState, 'blockquote')
-            setEditorState(newEditorState)
-            return 'handled'
-        }
+    const handleKeyCommand = useCallback(
+        (command, prevEditorState: EditorState) => {
+            if (command === 'myeditor-save') {
+                const newEditorState = RichUtils.toggleBlockType(
+                    prevEditorState,
+                    'blockquote'
+                )
+                setEditorState(newEditorState)
+                return 'handled'
+            }
 
+            const newEditorState = RichUtils.handleKeyCommand(
+                prevEditorState,
+                command
+            )
 
-        const newEditorState = RichUtils.handleKeyCommand(prevEditorState, command)
+            if (newEditorState) {
+                setEditorState(newEditorState)
+                return 'handled'
+            }
+            return 'not-handled'
+        },
+        []
+    )
 
-        if (newEditorState) {
-            setEditorState(newEditorState)
-            return 'handled'
-        }
-        return 'not-handled'
-    }, [])
-
-    const handleReturn = useCallback(() => {
-
-    }, [])
+    const handleReturn = useCallback(() => {}, [])
 
     // make eidtor be focused after click toolbar
     const handleContainerClick = useCallback(() => {
@@ -55,10 +102,12 @@ export const Typora = props => {
 
         // focus lead to editorState changed
         // use settimeout avoid race conditions
-        setTimeout(() => {
-            editorRef.current && editorRef.current.focus()
-        }, 20)
+        // setTimeout(() => {
+        //     editorRef.current && editorRef.current.focus()
+        // }, 20)
     }, [])
+
+    useAutoFocus(editorState, editorRef)
 
     return (
         <div className={classes.root} onClick={handleContainerClick}>
@@ -70,6 +119,7 @@ export const Typora = props => {
                 handleKeyCommand={handleKeyCommand}
                 blockStyleFn={blockStyleFn}
                 blockRendererFn={blockRendererFn}
+                blockRenderMap={extendBlockRenderMap}
                 keyBindingFn={keyBindingFn}
                 placeholder="Tell your story"
             />
