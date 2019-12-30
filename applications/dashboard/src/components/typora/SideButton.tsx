@@ -7,6 +7,7 @@ import AddRounded from '@planet-ui/icons/build/AddRounded'
 import { SvgIconFactory } from './SvgIcon'
 import { EntityType } from './entityTypes'
 import { BlockType } from './blockTypes'
+import { getSelectedBlockNode } from './utils'
 
 const AddButton = SvgIconFactory(AddRounded)
 
@@ -21,23 +22,6 @@ const useStyles = makeStyles({
 interface ISideButtonProps {
     editorState: EditorState
     onChange?: (editorState: EditorState) => void
-}
-
-const getSelectedBlockNode = (root: Window) => {
-    const selection = root.getSelection()
-    if (!selection || selection.rangeCount === 0) {
-        return null
-    }
-    let node: HTMLElement | null = selection.getRangeAt(0)
-        .startContainer as HTMLElement
-    do {
-        if (node.getAttribute && node.getAttribute('data-block') === 'true') {
-            return node
-        }
-        node = node.parentNode as HTMLElement
-    } while (node !== null)
-
-    return node
 }
 
 const useSelectionNode = (root: Window, editorState: EditorState) => {

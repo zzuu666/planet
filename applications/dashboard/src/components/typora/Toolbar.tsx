@@ -1,4 +1,10 @@
-import React, { FC, useCallback, useMemo, SyntheticEvent } from 'react'
+import React, {
+    FC,
+    useCallback,
+    useMemo,
+    SyntheticEvent,
+    useEffect
+} from 'react'
 import { makeStyles } from '@material-ui/styles'
 import {
     EditorState,
@@ -8,24 +14,60 @@ import {
 } from 'draft-js'
 import TitleRounded from '@planet-ui/icons/build/TitleRounded'
 import BoldRounded from '@planet-ui/icons/build/FormatBoldRounded'
+import FormatItalicRounded from '@planet-ui/icons/build/FormatItalicRounded'
 
 import { SvgIconFactory } from './SvgIcon'
+import { useHash } from '../../hooks/useHash'
 
 const useStyles = makeStyles({
     root: {
+        position: 'fixed',
         display: 'flex',
-        listStyle: 'none'
+        listStyle: 'none',
+        zIndex: 100,
+        padding: 0,
+        margin: 0,
+        height: 40,
+        borderRadius: 4,
+        transform: 'translate(-50%, -52px)',
+        '&:after': {
+            content: '""',
+            position: 'absolute',
+            display: 'block',
+            bottom: '-8px',
+            left: '50%',
+            marginLeft: '-8px',
+            width: 0,
+            height: 0,
+            borderStyle: 'solid',
+            borderWidth: '8px 8px 0 8px',
+            borderColor: '#555 transparent transparent transparent'
+        }
     },
-    item: {},
     button: {
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'space-around',
         outline: 'none',
         border: 'none',
         backgroundColor: '#555',
-        color: '#fff'
+        color: '#fff',
+        height: 40,
+        width: 40,
+
+
     },
-    svg: {}
+    li: {
+        overflow: 'hidden',
+        '&:first-child': {
+            borderTopLeftRadius: 4,
+            borderBottomLeftRadius: 4
+        },
+        '&:last-child': {
+            borderTopRightRadius: 4,
+            borderBottomRightRadius: 4
+        }
+    }
 })
 
 type ButtonType = 'BLOCKTYPE' | 'BLOCKSTYLING'
@@ -38,8 +80,11 @@ interface IButtonInfo {
 }
 
 interface IToolBarProps {
+    show: boolean
     editorState: EditorState
     onChange: (editorState: EditorState) => void
+    onOpen: () => void
+    onClose: () => void
 }
 
 interface IBlockInfo {
@@ -49,9 +94,10 @@ interface IBlockInfo {
 
 const TitleIcon = SvgIconFactory(TitleRounded)
 const BoldIcon = SvgIconFactory(BoldRounded)
+const ItalicIcon = SvgIconFactory(FormatItalicRounded)
 
 export const ToolBar: FC<IToolBarProps> = props => {
-    const { onChange, editorState } = props
+    const { editorState, onChange, onClose, onOpen, show } = props
 
     const classes = useStyles()
 
@@ -113,20 +159,74 @@ export const ToolBar: FC<IToolBarProps> = props => {
                 isActive: blockInfo.style.has('BOLD')
             },
             {
-                name: 'header-one',
+                name: 'ITALIC',
+                type: 'BLOCKSTYLING',
+                icon: ItalicIcon,
+                isActive: blockInfo.style.has('ITALIC')
+            },
+            {
+                name: 'header-two',
                 type: 'BLOCKTYPE',
                 icon: TitleIcon,
-                isActive: blockInfo.type === 'header-one'
+                isActive: blockInfo.type === 'header-two'
+            },
+            {
+                name: 'header-three',
+                type: 'BLOCKTYPE',
+                icon: props => <TitleIcon size={20} {...props} />,
+                isActive: blockInfo.type === 'header-three'
             }
         ]
 
         return list
     }, [blockInfo])
 
+    const [position, { set: setPosition }] = useHash({
+        top: 0,
+        left: 0
+    })
+
+    /**
+     * check if toolbar should show
+     * and where it should in
+     */
+    useEffect(() => {
+        const selectionState = editorState.getSelection()
+
+        if (selectionState.isCollapsed() || !selectionState.getHasFocus()) {
+            onClose()
+            return
+        }
+
+        const nativeSelection = window.getSelection()
+
+        if (!nativeSelection) {
+            return
+        }
+
+        /**
+         * TODO:
+         * Range.getBoundingClientRect
+         * this api is an experimental techonlogy
+         *
+         * @see https://developer.mozilla.org/en-US/docs/Web/API/Range/getBoundingClientRect
+         */
+        const rangeRect = nativeSelection.getRangeAt(0).getBoundingClientRect()
+
+        setPosition({
+            top: rangeRect.top,
+            left: rangeRect.left + rangeRect.width / 2
+        })
+        onOpen()
+    }, [editorState, onClose, onOpen, setPosition])
+
     return (
-        <ul className={classes.root}>
+        <ul
+            className={classes.root}
+            style={{ display: show ? '' : 'none', ...position }}
+        >
             {buttonList.map(info => (
-                <li className={classes.item} key={info.name}>
+                <li className={classes.li} key={info.name}>
                     <button
                         className={classes.button}
                         onClick={handleButtonClick}

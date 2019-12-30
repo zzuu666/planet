@@ -10,7 +10,8 @@ import {
     Editor,
     EditorState,
     RichUtils,
-    DefaultDraftBlockRenderMap
+    DefaultDraftBlockRenderMap,
+    Modifier
 } from 'draft-js'
 import { makeStyles } from '@material-ui/styles'
 import { useBlockStyles, createBlockStyleFn } from './blockStyleFn'
@@ -20,6 +21,7 @@ import { ToolBar } from './Toolbar'
 import { blockRendererFn } from './blockRendererFn'
 import { blockRenderMap } from './blockRenderMap'
 import { createTitleEditorState } from './editorStateWithTitle'
+import { useBoolean } from '../../hooks/useBoolean'
 
 import 'draft-js/dist/Draft.css'
 
@@ -69,6 +71,10 @@ export const Typora = props => {
         blockClasses
     ])
 
+    useAutoFocus(editorState, editorRef)
+
+    const [showToolbar, { setTrue, setFalse }] = useBoolean(false)
+
     const handleKeyCommand = useCallback(
         (command, prevEditorState: EditorState) => {
             if (command === 'myeditor-save') {
@@ -100,18 +106,19 @@ export const Typora = props => {
     const handleContainerClick = useCallback(() => {
         if (editorRef.current === null) return
 
+        // TODO remove selection range
+
         // focus lead to editorState changed
         // use settimeout avoid race conditions
         // setTimeout(() => {
         //     editorRef.current && editorRef.current.focus()
-        // }, 20)
+        // }, 0)
     }, [])
 
-    useAutoFocus(editorState, editorRef)
+
 
     return (
         <div className={classes.root} onClick={handleContainerClick}>
-            <ToolBar editorState={editorState} onChange={setEditorState} />
             <Editor
                 ref={editorRef}
                 editorState={editorState}
@@ -124,6 +131,13 @@ export const Typora = props => {
                 placeholder="Tell your story"
             />
             <SideButton editorState={editorState} onChange={setEditorState} />
+            <ToolBar
+                show={showToolbar}
+                editorState={editorState}
+                onChange={setEditorState}
+                onOpen={setTrue}
+                onClose={setFalse}
+            />
         </div>
     )
 }
