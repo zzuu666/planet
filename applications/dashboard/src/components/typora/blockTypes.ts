@@ -1,3 +1,4 @@
 export enum BlockType {
-    image = 'atomic:image'
+    image = 'atomic:image',
+    unstyle = 'unstyle'
 }

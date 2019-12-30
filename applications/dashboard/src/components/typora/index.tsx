@@ -53,8 +53,6 @@ export const Typora = props => {
     const handleContainerClick = useCallback(() => {
         if (editorRef.current === null) return
 
-        console.log('need fo')
-
         // focus lead to editorState changed
         // use settimeout avoid race conditions
         setTimeout(() => {

@@ -3,8 +3,6 @@ import React, { FC, ElementType, ReactElement } from 'react'
 export const SvgIcon: FC = (props) => {
     const { children } = props
 
-    console.log(children);
-
     const NewSvg = React.cloneElement(children as ReactElement, {
         viewBox: '0 0 24 24'
     })
