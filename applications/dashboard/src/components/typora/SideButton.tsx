@@ -1,25 +1,57 @@
-import React, { FC, useEffect, useRef, useState, useCallback } from 'react'
+import React, {
+    FC,
+    useEffect,
+    useRef,
+    useState,
+    useCallback,
+    useMemo
+} from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { EditorState, ContentState, ContentBlock, genKey } from 'draft-js'
 import { Map, List } from 'immutable'
-import AddRounded from '@planet-ui/icons/build/AddRounded'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import clsx from 'clsx'
 
-import { SvgIconFactory } from './SvgIcon'
-import { EntityType } from './entityTypes'
+import AddRounded from '@planet-ui/icons/build/AddRounded'
+import InsertPhotoRounded from '@planet-ui/icons/build/InsertPhotoRounded'
+import LinearScaleRounded from '@planet-ui/icons/build/LinearScaleRounded'
+
+import { IconButton } from './IconButton'
 import { BlockType } from './blockTypes'
 import { getSelectedBlockNode } from './utils'
-
-const AddButton = SvgIconFactory(AddRounded)
+import { useBoolean } from '../../hooks/useBoolean'
 
 const useStyles = makeStyles({
     root: {
         position: 'absolute',
+        display: 'flex',
         left: 20,
-        top: 0
+        top: 0,
+        zIndex: 100
+    },
+    addButton: {
+        transition: 'transform .2s linear'
+    },
+    addButtonOpen: {
+        transform: 'rotate(135deg)'
+    },
+    functionButtonGroup: {
+        display: 'flex'
+    },
+    functionButton: {
+        marginLeft: 8
+    },
+    buttonEnter: {
+        opacity: 0
+    },
+    buttonEnterActive: {
+        opacity: 1,
+        transition: 'opacity .2s'
     }
 })
 
 interface ISideButtonProps {
+    show: boolean
     editorState: EditorState
     onChange?: (editorState: EditorState) => void
 }
@@ -58,7 +90,7 @@ const useSelectionNode = (root: Window, editorState: EditorState) => {
         const contentBlock = contentState.getBlockForKey(startKey)
 
         if (!selectionState.getHasFocus()) {
-            return;
+            return
         }
 
         // if (prevContentBlock.current !== startKey) {
@@ -73,13 +105,15 @@ const useSelectionNode = (root: Window, editorState: EditorState) => {
 }
 
 export const SideButton: FC<ISideButtonProps> = props => {
-    const { editorState, onChange } = props
+    const { editorState, onChange, show } = props
 
     const classes = useStyles()
 
+    const [isOpen, { toggle }] = useBoolean(false)
+
     const selectionInfo = useSelectionNode(window, editorState)
 
-    const handleAddButtonClick = useCallback(() => {
+    const handleImageButtonClick = useCallback(() => {
         const selectionState = editorState.getSelection()
 
         // add a new block must be collapsed
@@ -152,9 +186,55 @@ export const SideButton: FC<ISideButtonProps> = props => {
         onChange && onChange(newEditorState)
     }, [editorState, onChange])
 
+
+    const handleBreakButtonClick = useCallback(() => {
+
+    }, [])
+
+    const buttonList = useMemo(() => {
+        const list = [
+            {
+                name: 'image',
+                icon: InsertPhotoRounded,
+                onClick: handleImageButtonClick
+            },
+            {
+                name: 'break',
+                icon: LinearScaleRounded,
+                onClick: handleBreakButtonClick
+            }
+        ]
+
+        return list
+    }, [handleImageButtonClick, handleBreakButtonClick])
+
     return (
-        <div className={classes.root} style={{ top: selectionInfo?.offsetTop }}>
-            <AddButton onClick={handleAddButtonClick} />
+        <div className={classes.root} style={{ top: selectionInfo?.offsetTop, display: show ? '' : 'none' }}>
+            <IconButton
+                className={clsx(classes.addButton, {
+                    [classes.addButtonOpen]: isOpen
+                })}
+                icon={AddRounded}
+                onClick={toggle}
+            />
+            {isOpen && (
+                <TransitionGroup className={classes.functionButtonGroup}>
+                    {buttonList.map(button => (
+                        <CSSTransition classNames={{
+                            enter: classes.buttonEnter,
+                            enterActive: classes.buttonEnterActive,
+                            appear: classes.buttonEnter,
+                            appearActive: classes.buttonEnterActive
+                        }} timeout={200} appear >
+                            <IconButton
+                                className={classes.functionButton}
+                                icon={button.icon}
+                                onClick={button.onClick}
+                            />
+                        </CSSTransition>
+                    ))}
+                </TransitionGroup>
+            )}
         </div>
     )
 }

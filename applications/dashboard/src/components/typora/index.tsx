@@ -78,12 +78,12 @@ export const Typora = props => {
     useAutoFocus(editorState, editorRef)
 
     const [showToolbar, { setTrue, setFalse }] = useBoolean(false)
+    const [showSidebar, { setTrue: setSidebarShow, setFalse: setSidebarHide }] = useBoolean(false)
 
     const handleKeyCommand = useCallback(
         (command: EditorCommand, prevEditorState: EditorState) => {
             if (command === 'backspace') {
                 const contentBlock = getContentBlock(prevEditorState)
-
                 if (contentBlock.getType() === BlockType.title) {
                     return 'not-handled'
                 }
@@ -164,7 +164,11 @@ export const Typora = props => {
                 keyBindingFn={keyBindingFn}
                 placeholder="Tell your story"
             />
-            <SideButton editorState={editorState} onChange={setEditorState} />
+            <SideButton
+                editorState={editorState}
+                onChange={setEditorState}
+                show={showSidebar}
+            />
             <ToolBar
                 show={showToolbar}
                 editorState={editorState}
