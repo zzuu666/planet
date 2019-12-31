@@ -27,6 +27,7 @@ import { getContentBlock, addNewContentBlock } from './editorUtils'
 
 import 'draft-js/dist/Draft.css'
 import { BlockType } from './blockTypes'
+import { EditorCommand } from './editorCommand'
 
 const useStyles = makeStyles({
     root: {
@@ -79,7 +80,15 @@ export const Typora = props => {
     const [showToolbar, { setTrue, setFalse }] = useBoolean(false)
 
     const handleKeyCommand = useCallback(
-        (command, prevEditorState: EditorState) => {
+        (command: EditorCommand, prevEditorState: EditorState) => {
+            if (command === 'backspace') {
+                const contentBlock = getContentBlock(prevEditorState)
+
+                if (contentBlock.getType() === BlockType.title) {
+                    return 'not-handled'
+                }
+            }
+
             if (command === 'myeditor-save') {
                 const newEditorState = RichUtils.toggleBlockType(
                     prevEditorState,
