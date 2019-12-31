@@ -4,14 +4,15 @@ import React, {
     useMemo,
     useRef,
     useEffect,
-    RefObject
+    RefObject,
+    KeyboardEvent
 } from 'react'
 import {
     Editor,
     EditorState,
     RichUtils,
     DefaultDraftBlockRenderMap,
-    Modifier
+    DraftHandleValue
 } from 'draft-js'
 import { makeStyles } from '@material-ui/styles'
 import { useBlockStyles, createBlockStyleFn } from './blockStyleFn'
@@ -22,8 +23,10 @@ import { blockRendererFn } from './blockRendererFn'
 import { blockRenderMap } from './blockRenderMap'
 import { createTitleEditorState } from './editorStateWithTitle'
 import { useBoolean } from '../../hooks/useBoolean'
+import { getContentBlock, addNewContentBlock } from './editorUtils'
 
 import 'draft-js/dist/Draft.css'
+import { BlockType } from './blockTypes'
 
 const useStyles = makeStyles({
     root: {
@@ -100,7 +103,30 @@ export const Typora = props => {
         []
     )
 
-    const handleReturn = useCallback(() => {}, [])
+    /**
+     * To remove some block type when return
+     *
+     * @see https://draftjs.org/docs/api-reference-editor#handlereturn
+     */
+    const handleReturn = useCallback(
+        (
+            event: KeyboardEvent,
+            prevEditorState: EditorState
+        ): DraftHandleValue => {
+            const contentBlock = getContentBlock(prevEditorState)
+
+            const blockType = contentBlock.getType()
+
+            if (blockType === BlockType.title) {
+                setEditorState(addNewContentBlock(prevEditorState))
+                return 'handled'
+            }
+
+            return 'not-handled'
+
+        },
+        []
+    )
 
     // make eidtor be focused after click toolbar
     const handleContainerClick = useCallback(() => {
@@ -115,8 +141,6 @@ export const Typora = props => {
         // }, 0)
     }, [])
 
-
-
     return (
         <div className={classes.root} onClick={handleContainerClick}>
             <Editor
@@ -124,6 +148,7 @@ export const Typora = props => {
                 editorState={editorState}
                 onChange={setEditorState}
                 handleKeyCommand={handleKeyCommand}
+                handleReturn={handleReturn}
                 blockStyleFn={blockStyleFn}
                 blockRendererFn={blockRendererFn}
                 blockRenderMap={extendBlockRenderMap}
