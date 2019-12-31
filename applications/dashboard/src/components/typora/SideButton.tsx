@@ -114,7 +114,7 @@ export const SideButton: FC<ISideButtonProps> = props => {
 
         const newBlock = new ContentBlock({
             key: newBlockKey,
-            type: BlockType.unstyle,
+            type: BlockType.unstyled,
             text: '',
             characterList: List(),
             depth: 0,

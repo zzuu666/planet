@@ -28,7 +28,7 @@ export const getContentBlock = (editorState: EditorState): ContentBlock => {
  */
 export const addNewContentBlock = (
     editorState: EditorState,
-    blockType = BlockType.unstyle
+    blockType = BlockType.unstyled
 ): EditorState => {
     const contentState = editorState.getCurrentContent()
     const contentBlockMap = contentState.getBlockMap()

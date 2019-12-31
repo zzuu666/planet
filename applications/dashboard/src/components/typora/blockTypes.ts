@@ -9,6 +9,6 @@ export enum BlockType {
     title = 'title',
 
     /** core draft block type  */
-    unstyle = 'unstyle',
+    unstyled = 'unstyled',
     atomic = 'atomic'
 }
