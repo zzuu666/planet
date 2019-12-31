@@ -15,8 +15,9 @@ import {
 import TitleRounded from '@planet-ui/icons/build/TitleRounded'
 import BoldRounded from '@planet-ui/icons/build/FormatBoldRounded'
 import FormatItalicRounded from '@planet-ui/icons/build/FormatItalicRounded'
+import FormatQuoteRounded from '@planet-ui/icons/build/FormatQuoteRounded'
 
-import { SvgIconFactory } from './SvgIcon'
+import { SvgIconFactory, ISvgIconProps } from './SvgIcon'
 import { useHash } from '../../hooks/useHash'
 
 const useStyles = makeStyles({
@@ -77,6 +78,7 @@ interface IButtonInfo {
     isActive: boolean
     name: string
     type: ButtonType
+    iconProps?: ISvgIconProps
 }
 
 interface IToolBarProps {
@@ -95,6 +97,7 @@ interface IBlockInfo {
 const TitleIcon = SvgIconFactory(TitleRounded)
 const BoldIcon = SvgIconFactory(BoldRounded)
 const ItalicIcon = SvgIconFactory(FormatItalicRounded)
+const QuoteIcon = SvgIconFactory(FormatQuoteRounded)
 
 export const ToolBar: FC<IToolBarProps> = props => {
     const { editorState, onChange, onClose, onOpen, show } = props
@@ -173,8 +176,15 @@ export const ToolBar: FC<IToolBarProps> = props => {
             {
                 name: 'header-three',
                 type: 'BLOCKTYPE',
-                icon: props => <TitleIcon size={20} {...props} />,
+                icon: TitleIcon,
+                iconProps: {size: 20},
                 isActive: blockInfo.type === 'header-three'
+            },
+            {
+                name: 'blockquote',
+                type: 'BLOCKTYPE',
+                icon: QuoteIcon,
+                isActive: blockInfo.type === 'blockquote'
             }
         ]
 
@@ -233,7 +243,10 @@ export const ToolBar: FC<IToolBarProps> = props => {
                         data-type={info.type}
                         data-name={info.name}
                     >
-                        <info.icon color={info.isActive ? 'green' : '#fff'} />
+                        <info.icon
+                            color={info.isActive ? 'green' : '#fff'}
+                            {...info.iconProps}
+                        />
                     </button>
                 </li>
             ))}

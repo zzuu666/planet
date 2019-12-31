@@ -10,10 +10,10 @@ export const SvgIcon: FC = (props) => {
     return NewSvg
 }
 
-interface ISvgIconProps {
+export interface ISvgIconProps {
     style?: React.CSSProperties;
     color?: string;
-    size: number;
+    size?: number;
 }
 
 export const SvgIconFactory = (Component: ElementType): FC<ISvgIconProps> => props => {
