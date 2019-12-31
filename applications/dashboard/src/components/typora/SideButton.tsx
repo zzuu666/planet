@@ -19,6 +19,7 @@ import LinearScaleRounded from '@planet-ui/icons/build/LinearScaleRounded'
 import { IconButton } from './IconButton'
 import { BlockType } from './blockTypes'
 import { getSelectedBlockNode } from './utils'
+import { getContentBlock } from './editorUtils'
 import { useBoolean } from '../../hooks/useBoolean'
 
 const useStyles = makeStyles({
@@ -54,6 +55,8 @@ interface ISideButtonProps {
     show: boolean
     editorState: EditorState
     onChange?: (editorState: EditorState) => void
+    onShow: () => void
+    onHide: () => void
 }
 
 const useSelectionNode = (root: Window, editorState: EditorState) => {
@@ -105,14 +108,21 @@ const useSelectionNode = (root: Window, editorState: EditorState) => {
 }
 
 export const SideButton: FC<ISideButtonProps> = props => {
-    const { editorState, onChange, show } = props
+    const { editorState, onChange, show, onShow, onHide } = props
 
     const classes = useStyles()
 
-    const [isOpen, { toggle }] = useBoolean(false)
+    const [isOpen, { toggle, setFalse }] = useBoolean(false)
 
     const selectionInfo = useSelectionNode(window, editorState)
 
+    /**
+     * TODO: issue
+     *
+     * foucs position will not exact when add a image
+     *
+     * because the image is unloaded when get selection info
+     */
     const handleImageButtonClick = useCallback(() => {
         const selectionState = editorState.getSelection()
 
@@ -184,12 +194,12 @@ export const SideButton: FC<ISideButtonProps> = props => {
         )
 
         onChange && onChange(newEditorState)
-    }, [editorState, onChange])
-
+        setFalse()
+    }, [editorState, onChange, setFalse])
 
     const handleBreakButtonClick = useCallback(() => {
-
-    }, [])
+        setFalse()
+    }, [setFalse])
 
     const buttonList = useMemo(() => {
         const list = [
@@ -208,8 +218,33 @@ export const SideButton: FC<ISideButtonProps> = props => {
         return list
     }, [handleImageButtonClick, handleBreakButtonClick])
 
+    useEffect(() => {
+        const selectionState = editorState.getSelection()
+        const startOffset = selectionState.getStartOffset()
+        const contentBlock = getContentBlock(editorState)
+        const contentBlockLength = contentBlock.getLength()
+        const contentBlockType = contentBlock.getType()
+
+        if (
+            startOffset === 0 &&
+            contentBlockLength === 0 &&
+            contentBlockType !== BlockType.title &&
+            contentBlockType !== BlockType.image
+        ) {
+            onShow()
+        } else {
+            onHide()
+        }
+    }, [editorState, onShow, onHide])
+
     return (
-        <div className={classes.root} style={{ top: selectionInfo?.offsetTop, display: show ? '' : 'none' }}>
+        <div
+            className={classes.root}
+            style={{
+                top: selectionInfo?.offsetTop,
+                display: show ? '' : 'none'
+            }}
+        >
             <IconButton
                 className={clsx(classes.addButton, {
                     [classes.addButtonOpen]: isOpen
@@ -220,12 +255,17 @@ export const SideButton: FC<ISideButtonProps> = props => {
             {isOpen && (
                 <TransitionGroup className={classes.functionButtonGroup}>
                     {buttonList.map(button => (
-                        <CSSTransition classNames={{
-                            enter: classes.buttonEnter,
-                            enterActive: classes.buttonEnterActive,
-                            appear: classes.buttonEnter,
-                            appearActive: classes.buttonEnterActive
-                        }} timeout={200} appear >
+                        <CSSTransition
+                            appear
+                            classNames={{
+                                enter: classes.buttonEnter,
+                                enterActive: classes.buttonEnterActive,
+                                appear: classes.buttonEnter,
+                                appearActive: classes.buttonEnterActive
+                            }}
+                            key={button.name}
+                            timeout={200}
+                        >
                             <IconButton
                                 className={classes.functionButton}
                                 icon={button.icon}

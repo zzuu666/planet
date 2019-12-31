@@ -167,6 +167,8 @@ export const Typora = props => {
             <SideButton
                 editorState={editorState}
                 onChange={setEditorState}
+                onHide={setSidebarHide}
+                onShow={setSidebarShow}
                 show={showSidebar}
             />
             <ToolBar
