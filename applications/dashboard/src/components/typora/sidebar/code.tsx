@@ -9,9 +9,12 @@ import { useBoolean } from '../../../hooks/useBoolean'
 import { Modal } from '../../modal'
 import { MonacoEditor } from '../../monaco'
 
+import { addNewContentBlock } from '../editorUtils'
+import { BlockType } from '../blockTypes'
+
 
 export const SideCodeButton: FC<ISideButtonProps> = (props) => {
-    const { editorState } = props
+    const { editorState, onChange } = props
     const [ showModal, { setFalse, setTrue } ] = useBoolean(false)
 
     const handleClick = useCallback(() => {
@@ -19,8 +22,11 @@ export const SideCodeButton: FC<ISideButtonProps> = (props) => {
     }, [setTrue])
 
     const onMonacoSaved = useCallback((editor: Editor.IStandaloneCodeEditor) => {
-        console.log(editor.getValue())
-    }, [])
+        const code = editor.getValue()
+        const newEditorState = addNewContentBlock(editorState, BlockType.code, { lang: 'javascript', code })
+        onChange && onChange(newEditorState)
+        setFalse()
+    }, [editorState, onChange])
 
 
 

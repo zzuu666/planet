@@ -2,24 +2,29 @@ import React, { FC, useRef, useEffect } from 'react'
 import { ContentBlock, EditorBlock } from 'draft-js'
 import * as monaco from 'monaco-editor'
 
+
 interface IProps {
     block: ContentBlock
 }
 
+interface IBlockData {
+    lang: 'javascript'
+    code: string
+}
+
 export const BlockCodeComponent: FC<IProps> = props => {
     const { block } = props
-    const containerRef = useRef<HTMLDivElement>(null)
+    const lang= block.getData().get('lang')
+    const code= block.getData().get('code')
+    const perRef = useRef<HTMLPreElement>(null)
 
     useEffect(() => {
-        monaco.editor.create(containerRef.current!, {
-            value: [
-                'function x() {',
-                '\tconsole.log("Hello world!");',
-                '}'
-            ].join('\n'),
-            language: 'javascript'
-        })
+        monaco.editor.colorizeElement(perRef.current)
     }, [])
 
-    return <div style={{height: 400}} ref={containerRef} />
+    return (
+        <pre ref={perRef} data-lang={lang}>
+            { code }
+        </pre>
+    )
 }

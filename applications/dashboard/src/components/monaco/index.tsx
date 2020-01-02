@@ -39,7 +39,9 @@ export const MonacoEditor: FC<IMonacoEditorProps>= props => {
 
     return (
         <div>
-            <div></div>
+            <div>
+
+            </div>
             <div style={{ height: '50vh', width: '80%' }} ref={containerRef} />
             <div>
                 <button onClick={handleSaveClick} > 保存 </button>

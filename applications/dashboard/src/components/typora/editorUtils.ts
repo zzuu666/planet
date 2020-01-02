@@ -28,7 +28,8 @@ export const getContentBlock = (editorState: EditorState): ContentBlock => {
  */
 export const addNewContentBlock = (
     editorState: EditorState,
-    blockType = BlockType.unstyled
+    blockType = BlockType.unstyled,
+    blockData = {}
 ): EditorState => {
     const contentState = editorState.getCurrentContent()
     const contentBlockMap = contentState.getBlockMap()
@@ -56,7 +57,7 @@ export const addNewContentBlock = (
         text: '',
         characterList: List(),
         depth: 0,
-        data: Map({})
+        data: Map(blockData)
     })
 
     const newBlockMap = beforeBlocks

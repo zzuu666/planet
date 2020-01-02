@@ -14,8 +14,7 @@ export const blockRendererFn = (block: ContentBlock) => {
             }
         case BlockType.code:
             return {
-                component: BlockCodeComponent,
-                editable: true
+                component: BlockCodeComponent
             }
         default:
             return undefined
