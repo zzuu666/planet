@@ -7,6 +7,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const safePostCssParser = require('postcss-safe-parser')
 const TerserPlugin = require('terser-webpack-plugin')
+// For Monaco Editor
+// Todo spare it to custom config that for specified project
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 
 // Make sure '.env' file is requird before 'paths'
 const getClientEnvironment = require('./env')
@@ -354,7 +357,8 @@ module.exports = webpackEnv => {
                     // both options are optional
                     filename: 'static/css/[name].[contenthash:8].css',
                     chunkFilename: 'static/css/[name].[contenthash:8].chunk.css'
-                })
+                }),
+            new MonacoWebpackPlugin()
         ].filter(Boolean),
         // Turn off performance processing because we utilize
         // our own hints via the FileSizeReporter

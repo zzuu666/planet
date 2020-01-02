@@ -15,12 +15,15 @@ import clsx from 'clsx'
 import AddRounded from '@planet-ui/icons/build/AddRounded'
 import InsertPhotoRounded from '@planet-ui/icons/build/InsertPhotoRounded'
 import LinearScaleRounded from '@planet-ui/icons/build/LinearScaleRounded'
+import CodeRounded from '@planet-ui/icons/build/CodeRounded'
 
 import { IconButton } from './IconButton'
 import { BlockType } from './blockTypes'
 import { getSelectedBlockNode } from './utils'
-import { getContentBlock } from './editorUtils'
+import { getContentBlock, addNewContentBlock } from './editorUtils'
 import { useBoolean } from '../../hooks/useBoolean'
+
+import { SideCodeButton } from './sidebar/code'
 
 const useStyles = makeStyles({
     root: {
@@ -28,7 +31,7 @@ const useStyles = makeStyles({
         display: 'flex',
         left: 20,
         top: 0,
-        zIndex: 100
+        zIndex: 10
     },
     addButton: {
         transition: 'transform .2s linear'
@@ -201,6 +204,12 @@ export const SideButton: FC<ISideButtonProps> = props => {
         setFalse()
     }, [setFalse])
 
+    const handleCodeButtonClick = useCallback(() => {
+        const newEditorState = addNewContentBlock(editorState, BlockType.code)
+        onChange && onChange(newEditorState)
+        setFalse()
+    }, [setFalse, editorState, onChange])
+
     const buttonList = useMemo(() => {
         const list = [
             {
@@ -212,11 +221,16 @@ export const SideButton: FC<ISideButtonProps> = props => {
                 name: 'break',
                 icon: LinearScaleRounded,
                 onClick: handleBreakButtonClick
+            },
+            {
+                name: 'code',
+                icon: CodeRounded,
+                onClick: handleCodeButtonClick
             }
         ]
 
         return list
-    }, [handleImageButtonClick, handleBreakButtonClick])
+    }, [handleImageButtonClick, handleBreakButtonClick, handleCodeButtonClick])
 
     useEffect(() => {
         const selectionState = editorState.getSelection()
@@ -273,6 +287,8 @@ export const SideButton: FC<ISideButtonProps> = props => {
                             />
                         </CSSTransition>
                     ))}
+
+                    <SideCodeButton editorState={editorState} />
                 </TransitionGroup>
             )}
         </div>

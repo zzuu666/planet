@@ -62,7 +62,7 @@ const useAutoFocus = (
     }, [editorState, editorRef])
 }
 
-export const Typora = props => {
+export const Typora = React.memo(props => {
     const [editorState, setEditorState] = useState(createTitleEditorState())
 
     const classes = useStyles()
@@ -75,7 +75,7 @@ export const Typora = props => {
         blockClasses
     ])
 
-    useAutoFocus(editorState, editorRef)
+    // useAutoFocus(editorState, editorRef)
 
     const [showToolbar, { setTrue, setFalse }] = useBoolean(false)
     const [showSidebar, { setTrue: setSidebarShow, setFalse: setSidebarHide }] = useBoolean(false)
@@ -131,6 +131,10 @@ export const Typora = props => {
                 return 'handled'
             }
 
+            if (blockType === BlockType.code) {
+                return 'handled'
+            }
+
             return 'not-handled'
 
         },
@@ -180,4 +184,4 @@ export const Typora = props => {
             />
         </div>
     )
-}
+})
