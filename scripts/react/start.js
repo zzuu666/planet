@@ -11,6 +11,9 @@ process.on('unhandledRejection', err => {
     throw err
 })
 
+// Ensure environment variables are read.
+require('../../config/react/env');
+
 const fs = require('fs')
 const webpack = require('webpack')
 const chalk = require('chalk')
@@ -20,6 +23,8 @@ const createDevServerConfig = require('../../config/react/webpackDevServer.confi
 const paths = require('../../config/react/paths')
 
 const checkRequiredFiles = require('../../extras/react-dev-utils/checkRequiredFiles')
+
+const { createCompiler } = require('../../extras/react-dev-utils/WebpackDevServerUtils')
 
 // Warn and crash if required files are missing
 if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
@@ -31,7 +36,16 @@ const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000
 const HOST = process.env.HOST || '0.0.0.0'
 
 const config = configFactory('development')
-const compiler = webpack(config)
+const appName = require(paths.appPackageJson).name;
+const useYarn = fs.existsSync(paths.yarnLockFile);
+const compiler = createCompiler({
+    appName,
+    config,
+    webpack,
+    useYarn,
+    // TODO
+    urls: {},
+})
 
 const serverConfig = createDevServerConfig(undefined, undefined)
 const devServer = new WebpackDevServer(compiler, serverConfig)
