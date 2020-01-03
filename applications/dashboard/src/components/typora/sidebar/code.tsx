@@ -21,12 +21,13 @@ export const SideCodeButton: FC<ISideButtonProps> = (props) => {
         setTrue()
     }, [setTrue])
 
-    const onMonacoSaved = useCallback((editor: Editor.IStandaloneCodeEditor) => {
+    const onMonacoSaved = useCallback((editor: Editor.IStandaloneCodeEditor, language) => {
         const code = editor.getValue()
-        const newEditorState = addNewContentBlock(editorState, BlockType.code, { lang: 'javascript', code })
+
+        const newEditorState = addNewContentBlock(editorState, BlockType.code, { lang: language, code })
         onChange && onChange(newEditorState)
         setFalse()
-    }, [editorState, onChange])
+    }, [editorState, onChange, setFalse])
 
 
 
