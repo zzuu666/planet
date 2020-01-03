@@ -1,4 +1,10 @@
-import React, { FC, DetailedHTMLProps, ButtonHTMLAttributes, ElementType, useMemo } from 'react'
+import React, {
+    FC,
+    DetailedHTMLProps,
+    ButtonHTMLAttributes,
+    ElementType,
+    useMemo
+} from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/styles'
 import { buttonStyle } from './commonStyles'
@@ -18,7 +24,11 @@ interface IIconButtonProps {
     icon: ElementType
 }
 
-type IconButtonProsp = IIconButtonProps & DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
+type IconButtonProsp = IIconButtonProps &
+    DetailedHTMLProps<
+        ButtonHTMLAttributes<HTMLButtonElement>,
+        HTMLButtonElement
+    >
 
 export const IconButton: FC<IconButtonProsp> = props => {
     const { icon: Icon, className, ...others } = props
@@ -26,7 +36,6 @@ export const IconButton: FC<IconButtonProsp> = props => {
     const classes = useStyles()
 
     const SvgIcon = useMemo(() => SvgIconFactory(Icon), [Icon])
-
 
     return (
         <button className={clsx(classes.root, className)} {...others}>

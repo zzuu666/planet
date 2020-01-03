@@ -78,7 +78,10 @@ export const Typora = React.memo(props => {
     // useAutoFocus(editorState, editorRef)
 
     const [showToolbar, { setTrue, setFalse }] = useBoolean(false)
-    const [showSidebar, { setTrue: setSidebarShow, setFalse: setSidebarHide }] = useBoolean(false)
+    const [
+        showSidebar,
+        { setTrue: setSidebarShow, setFalse: setSidebarHide }
+    ] = useBoolean(false)
 
     const handleKeyCommand = useCallback(
         (command: EditorCommand, prevEditorState: EditorState) => {
@@ -136,7 +139,6 @@ export const Typora = React.memo(props => {
             }
 
             return 'not-handled'
-
         },
         []
     )

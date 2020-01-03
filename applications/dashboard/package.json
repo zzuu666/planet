@@ -6,6 +6,9 @@
   "author": "zzuu666",
   "license": "MIT",
   "private": true,
+  "scripts": {
+      "prettier": "prettier './src/**/*' --write"
+  },
   "dependencies": {
     "@material-ui/styles": "^4.7.1",
     "clsx": "^1.0.4",

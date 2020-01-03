@@ -288,7 +288,10 @@ export const SideButton: FC<ISideButtonProps> = props => {
                         </CSSTransition>
                     ))}
 
-                    <SideCodeButton editorState={editorState}  onChange={onChange} />
+                    <SideCodeButton
+                        editorState={editorState}
+                        onChange={onChange}
+                    />
                 </TransitionGroup>
             )}
         </div>

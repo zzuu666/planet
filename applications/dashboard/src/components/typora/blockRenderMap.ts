@@ -1,7 +1,7 @@
 import { Map } from 'immutable'
 
 export const blockRenderMap = Map({
-    'title': {
+    title: {
         element: 'h1'
     }
 })

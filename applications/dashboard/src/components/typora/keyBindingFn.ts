@@ -3,7 +3,11 @@ import { getDefaultKeyBinding, KeyBindingUtil } from 'draft-js'
 
 import { EditorCommand } from './editorCommand'
 
-const { hasCommandModifier, isOptionKeyCommand, isCtrlKeyCommand } = KeyBindingUtil
+const {
+    hasCommandModifier,
+    isOptionKeyCommand,
+    isCtrlKeyCommand
+} = KeyBindingUtil
 
 export const keyBindingFn = (event: KeyboardEvent): EditorCommand | null => {
     /* `S` key */

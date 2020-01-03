@@ -1,81 +1,89 @@
 {
-  "name": "plante",
-  "version": "0.0.0",
-  "description": "Front end monorepo for my private projects.",
-  "main": "index.js",
-  "repository": "https://github.com/zzuu666/planet",
-  "author": "zzuu666",
-  "license": "MIT",
-  "private": true,
-  "workspaces": [
-    "packages/*",
-    "applications/*"
-  ],
-  "scripts": {
-    "commit": "git-cz",
-    "build:dashboard": "node scripts/react/build.js applications/dashboard",
-    "start:dashboard": "node scripts/react/start.js applications/dashboard"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.7.7",
-    "@babel/core": "^7.7.7",
-    "@babel/plugin-transform-runtime": "^7.7.6",
-    "@babel/preset-env": "^7.7.7",
-    "@babel/preset-react": "^7.7.4",
-    "@babel/preset-typescript": "^7.7.7",
-    "@types/draft-js": "^0.10.37",
-    "@types/react": "^16.9.17",
-    "@types/react-dom": "^16.9.4",
-    "@types/react-transition-group": "^4.2.3",
-    "@typescript-eslint/eslint-plugin": "2.x",
-    "@typescript-eslint/parser": "2.x",
-    "babel-eslint": "10.x",
-    "babel-loader": "^8.0.6",
-    "babel-plugin-named-asset-import": "^0.3.5",
-    "babel-preset-react-app": "^9.1.0",
-    "case-sensitive-paths-webpack-plugin": "^2.2.0",
-    "chalk": "^3.0.0",
-    "commitizen": "^4.0.3",
-    "cross-env": "^6.0.3",
-    "css-loader": "^3.4.0",
-    "cz-conventional-changelog": "^3.0.2",
-    "dotenv": "^8.2.0",
-    "dotenv-expand": "^5.1.0",
-    "escape-string-regexp": "^2.0.0",
-    "eslint": "6.x",
-    "eslint-config-react-app": "^5.1.0",
-    "eslint-plugin-flowtype": "3.x",
-    "eslint-plugin-import": "2.x",
-    "eslint-plugin-jsx-a11y": "6.x",
-    "eslint-plugin-react": "7.x",
-    "eslint-plugin-react-hooks": "1.x",
-    "file-loader": "^5.0.2",
-    "html-webpack-plugin": "4.0.0-beta.11",
-    "husky": "^3.1.0",
-    "include-loader": "^1.1.0-beta",
-    "lerna": "^3.19.0",
-    "lint-staged": "^9.5.0",
-    "mini-css-extract-plugin": "^0.9.0",
-    "monaco-editor-webpack-plugin": "^1.8.1",
-    "optimize-css-assets-webpack-plugin": "^5.0.3",
-    "postcss-safe-parser": "^4.0.1",
-    "prettier": "^1.19.1",
-    "rimraf": "^3.0.0",
-    "style-loader": "^1.1.2",
-    "terser-webpack-plugin": "^2.3.1",
-    "typescript": "^3.7.4",
-    "url-loader": "^3.0.0",
-    "webpack": "^4.41.4",
-    "webpack-dev-server": "^3.10.1"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "node scripts/verify-commit-msg.js"
+    "name": "plante",
+    "version": "0.0.0",
+    "description": "Front end monorepo for my private projects.",
+    "main": "index.js",
+    "repository": "https://github.com/zzuu666/planet",
+    "author": "zzuu666",
+    "license": "MIT",
+    "private": true,
+    "workspaces": [
+        "packages/*",
+        "applications/*"
+    ],
+    "scripts": {
+        "commit": "git-cz",
+        "build:dashboard": "node scripts/react/build.js applications/dashboard",
+        "start:dashboard": "node scripts/react/start.js applications/dashboard"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.7.7",
+        "@babel/core": "^7.7.7",
+        "@babel/plugin-transform-runtime": "^7.7.6",
+        "@babel/preset-env": "^7.7.7",
+        "@babel/preset-react": "^7.7.4",
+        "@babel/preset-typescript": "^7.7.7",
+        "@types/draft-js": "^0.10.37",
+        "@types/react": "^16.9.17",
+        "@types/react-dom": "^16.9.4",
+        "@types/react-transition-group": "^4.2.3",
+        "@typescript-eslint/eslint-plugin": "2.x",
+        "@typescript-eslint/parser": "2.x",
+        "babel-eslint": "10.x",
+        "babel-loader": "^8.0.6",
+        "babel-plugin-named-asset-import": "^0.3.5",
+        "babel-preset-react-app": "^9.1.0",
+        "case-sensitive-paths-webpack-plugin": "^2.2.0",
+        "chalk": "^3.0.0",
+        "commitizen": "^4.0.3",
+        "cross-env": "^6.0.3",
+        "css-loader": "^3.4.0",
+        "cz-conventional-changelog": "^3.0.2",
+        "dotenv": "^8.2.0",
+        "dotenv-expand": "^5.1.0",
+        "escape-string-regexp": "^2.0.0",
+        "eslint": "6.x",
+        "eslint-config-react-app": "^5.1.0",
+        "eslint-plugin-flowtype": "3.x",
+        "eslint-plugin-import": "2.x",
+        "eslint-plugin-jsx-a11y": "6.x",
+        "eslint-plugin-react": "7.x",
+        "eslint-plugin-react-hooks": "1.x",
+        "file-loader": "^5.0.2",
+        "html-webpack-plugin": "4.0.0-beta.11",
+        "husky": "^3.1.0",
+        "include-loader": "^1.1.0-beta",
+        "lerna": "^3.19.0",
+        "lint-staged": "^9.5.0",
+        "mini-css-extract-plugin": "^0.9.0",
+        "monaco-editor-webpack-plugin": "^1.8.1",
+        "optimize-css-assets-webpack-plugin": "^5.0.3",
+        "postcss-safe-parser": "^4.0.1",
+        "prettier": "^1.19.1",
+        "rimraf": "^3.0.0",
+        "style-loader": "^1.1.2",
+        "terser-webpack-plugin": "^2.3.1",
+        "typescript": "^3.7.4",
+        "url-loader": "^3.0.0",
+        "webpack": "^4.41.4",
+        "webpack-dev-server": "^3.10.1"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged",
+            "commit-msg": "node scripts/verify-commit-msg.js"
+        }
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    },
+    "lint-staged": {
+        "*.{ts,tsx}": [
+            "prettier --write",
+            "eslint",
+            "git add"
+        ]
     }
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  }
 }

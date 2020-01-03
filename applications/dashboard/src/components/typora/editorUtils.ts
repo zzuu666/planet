@@ -17,7 +17,6 @@ export const getContentBlock = (editorState: EditorState): ContentBlock => {
     return contentBlock
 }
 
-
 /**
  * add a new content block after current content block
  *

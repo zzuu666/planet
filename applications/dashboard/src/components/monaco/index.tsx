@@ -38,7 +38,10 @@ const useMonaco = (
 
 interface IMonacoEditorProps {
     editorStyle?: CSSProperties
-    onSave?: (editor: monaco.editor.IStandaloneCodeEditor, language: string) => void
+    onSave?: (
+        editor: monaco.editor.IStandaloneCodeEditor,
+        language: string
+    ) => void
     languageList?: string[]
 }
 

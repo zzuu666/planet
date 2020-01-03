@@ -38,5 +38,8 @@ export const Modal: FC<IModalProps> = props => {
 
     if (!show) return null
 
-    return ReactDOM.createPortal(<div className={classes.root}>{children}</div>, container)
+    return ReactDOM.createPortal(
+        <div className={classes.root}>{children}</div>,
+        container
+    )
 }

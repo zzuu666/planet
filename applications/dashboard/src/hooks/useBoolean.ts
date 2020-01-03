@@ -6,4 +6,5 @@ const booleanMethods = {
     setFalse: () => false
 }
 
-export const useBoolean = (initialValue: boolean = false) => useMethods(initialValue, booleanMethods)
+export const useBoolean = (initialValue: boolean = false) =>
+    useMethods(initialValue, booleanMethods)

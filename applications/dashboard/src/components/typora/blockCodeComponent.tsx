@@ -2,7 +2,6 @@ import React, { FC, useRef, useEffect } from 'react'
 import { ContentBlock, EditorBlock } from 'draft-js'
 import * as monaco from 'monaco-editor'
 
-
 interface IProps {
     block: ContentBlock
 }
@@ -14,8 +13,8 @@ interface IBlockData {
 
 export const BlockCodeComponent: FC<IProps> = props => {
     const { block } = props
-    const lang= block.getData().get('lang')
-    const code= block.getData().get('code')
+    const lang = block.getData().get('lang')
+    const code = block.getData().get('code')
     const perRef = useRef<HTMLPreElement>(null)
 
     useEffect(() => {
@@ -24,7 +23,7 @@ export const BlockCodeComponent: FC<IProps> = props => {
 
     return (
         <pre ref={perRef} data-lang={lang}>
-            { code }
+            {code}
         </pre>
     )
 }

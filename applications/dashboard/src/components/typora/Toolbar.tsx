@@ -54,9 +54,7 @@ const useStyles = makeStyles({
         backgroundColor: '#555',
         color: '#fff',
         height: 40,
-        width: 40,
-
-
+        width: 40
     },
     li: {
         overflow: 'hidden',
@@ -177,7 +175,7 @@ export const ToolBar: FC<IToolBarProps> = props => {
                 name: 'header-three',
                 type: 'BLOCKTYPE',
                 icon: TitleIcon,
-                iconProps: {size: 20},
+                iconProps: { size: 20 },
                 isActive: blockInfo.type === 'header-three'
             },
             {
