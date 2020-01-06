@@ -1,4 +1,12 @@
-import { EditorState, ContentBlock, ContentState, genKey } from 'draft-js'
+import {
+    EditorState,
+    ContentBlock,
+    ContentState,
+    genKey,
+    convertToRaw,
+    convertFromRaw,
+    RichUtils
+} from 'draft-js'
 import { Map, List } from 'immutable'
 import { BlockType } from './blockTypes'
 
@@ -113,4 +121,33 @@ export const addNewContentBlock = <T>(
     }) as ContentState
 
     return EditorState.push(editorState, newContentState, 'insert-fragment')
+}
+
+export const saveEditorStateToLocalStorage = (editorState: EditorState) => {
+    const rawDraftContentState = convertToRaw(editorState.getCurrentContent())
+
+    localStorage.setItem(
+        'DRAFT_EDITOR_STATE',
+        JSON.stringify(rawDraftContentState)
+    )
+}
+
+export const getContentStateFromLocalStorage = () => {
+    const rawDraftContentStateString = localStorage.getItem(
+        'DRAFT_EDITOR_STATE'
+    )
+    if (rawDraftContentStateString === null) return null
+
+    const rawDraftContentState = JSON.parse(rawDraftContentStateString)
+
+    return convertFromRaw(rawDraftContentState)
+}
+
+export const getInitialEditorStateIfHasCache = (
+    defaultEditorState?: EditorState
+) => {
+    const contentState = getContentStateFromLocalStorage()
+    if (!contentState) return defaultEditorState || EditorState.createEmpty()
+
+    return EditorState.createWithContent(contentState)
 }

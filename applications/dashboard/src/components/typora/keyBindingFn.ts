@@ -12,7 +12,7 @@ const {
 export const keyBindingFn = (event: KeyboardEvent): EditorCommand | null => {
     /* `S` key */
     if (event.keyCode === 83 && hasCommandModifier(event)) {
-        return 'myeditor-save'
+        return 'save'
     }
 
     return getDefaultKeyBinding(event)

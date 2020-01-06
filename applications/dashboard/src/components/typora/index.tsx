@@ -23,11 +23,15 @@ import { blockRendererFn } from './blockRendererFn'
 import { blockRenderMap } from './blockRenderMap'
 import { createTitleEditorState } from './editorStateWithTitle'
 import { useBoolean } from '../../hooks/useBoolean'
-import { getContentBlock, addNewContentBlock } from './editorUtils'
+import {
+    getContentBlock,
+    addNewContentBlock,
+    getInitialEditorStateIfHasCache
+} from './editorUtils'
+import { createtHandleKeyCommand } from './handleKeyCommand'
 
 import 'draft-js/dist/Draft.css'
 import { BlockType } from './blockTypes'
-import { EditorCommand } from './editorCommand'
 
 const useStyles = makeStyles({
     root: {
@@ -55,7 +59,6 @@ const useAutoFocus = (
     useEffect(() => {
         if (!editorRef.current || !shouldFocus) return
 
-        console.log('f')
         const selectionState = editorState.getSelection()
 
         if (!selectionState.getHasFocus()) {
@@ -65,7 +68,9 @@ const useAutoFocus = (
 }
 
 export const Typora = React.memo(props => {
-    const [editorState, setEditorState] = useState(createTitleEditorState())
+    const [editorState, setEditorState] = useState(
+        getInitialEditorStateIfHasCache(createTitleEditorState())
+    )
 
     const classes = useStyles()
 
@@ -86,35 +91,8 @@ export const Typora = React.memo(props => {
 
     useAutoFocus(editorState, editorRef, showToolbar)
 
-    const handleKeyCommand = useCallback(
-        (command: EditorCommand, prevEditorState: EditorState) => {
-            if (command === 'backspace') {
-                const contentBlock = getContentBlock(prevEditorState)
-                if (contentBlock.getType() === BlockType.title) {
-                    return 'not-handled'
-                }
-            }
-
-            if (command === 'myeditor-save') {
-                const newEditorState = RichUtils.toggleBlockType(
-                    prevEditorState,
-                    'blockquote'
-                )
-                setEditorState(newEditorState)
-                return 'handled'
-            }
-
-            const newEditorState = RichUtils.handleKeyCommand(
-                prevEditorState,
-                command
-            )
-
-            if (newEditorState) {
-                setEditorState(newEditorState)
-                return 'handled'
-            }
-            return 'not-handled'
-        },
+    const handleKeyCommand = useMemo(
+        () => createtHandleKeyCommand(setEditorState),
         []
     )
 
