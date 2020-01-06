@@ -4,10 +4,17 @@ import React, {
     useRef,
     useState,
     useCallback,
-    useMemo
+    useMemo,
+    RefObject
 } from 'react'
 import { makeStyles } from '@material-ui/styles'
-import { EditorState, ContentState, ContentBlock, genKey } from 'draft-js'
+import {
+    EditorState,
+    ContentState,
+    ContentBlock,
+    genKey,
+    Editor
+} from 'draft-js'
 import { Map, List } from 'immutable'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import clsx from 'clsx'
@@ -15,12 +22,11 @@ import clsx from 'clsx'
 import AddRounded from '@planet-ui/icons/build/AddRounded'
 import InsertPhotoRounded from '@planet-ui/icons/build/InsertPhotoRounded'
 import LinearScaleRounded from '@planet-ui/icons/build/LinearScaleRounded'
-import CodeRounded from '@planet-ui/icons/build/CodeRounded'
 
 import { IconButton } from './IconButton'
 import { BlockType } from './blockTypes'
 import { getSelectedBlockNode } from './utils'
-import { getContentBlock, addNewContentBlock } from './editorUtils'
+import { getContentBlock } from './editorUtils'
 import { useBoolean } from '../../hooks/useBoolean'
 
 import { SideCodeButton } from './sidebar/code'
@@ -57,6 +63,7 @@ const useStyles = makeStyles({
 interface ISideButtonProps {
     show: boolean
     editorState: EditorState
+    editorRef: RefObject<Editor | null>
     onChange?: (editorState: EditorState) => void
     onShow: () => void
     onHide: () => void
@@ -68,7 +75,6 @@ const useSelectionNode = (root: Window, editorState: EditorState) => {
     }
     const prevNode = useRef<HTMLElement | null>(null)
     const [value, setValue] = useState<SelectionNodeInfo | null>(null)
-    const prevContentBlock = useRef<string | null>(null)
 
     const findNode = useCallback(() => {
         const node = getSelectedBlockNode(root)
@@ -111,7 +117,7 @@ const useSelectionNode = (root: Window, editorState: EditorState) => {
 }
 
 export const SideButton: FC<ISideButtonProps> = props => {
-    const { editorState, onChange, show, onShow, onHide } = props
+    const { editorState, editorRef, onChange, show, onShow, onHide } = props
 
     const classes = useStyles()
 
@@ -204,12 +210,6 @@ export const SideButton: FC<ISideButtonProps> = props => {
         setFalse()
     }, [setFalse])
 
-    const handleCodeButtonClick = useCallback(() => {
-        const newEditorState = addNewContentBlock(editorState, BlockType.code)
-        onChange && onChange(newEditorState)
-        setFalse()
-    }, [setFalse, editorState, onChange])
-
     const buttonList = useMemo(() => {
         const list = [
             {
@@ -221,16 +221,11 @@ export const SideButton: FC<ISideButtonProps> = props => {
                 name: 'break',
                 icon: LinearScaleRounded,
                 onClick: handleBreakButtonClick
-            },
-            {
-                name: 'code',
-                icon: CodeRounded,
-                onClick: handleCodeButtonClick
             }
         ]
 
         return list
-    }, [handleImageButtonClick, handleBreakButtonClick, handleCodeButtonClick])
+    }, [handleImageButtonClick, handleBreakButtonClick])
 
     useEffect(() => {
         const selectionState = editorState.getSelection()
@@ -290,7 +285,9 @@ export const SideButton: FC<ISideButtonProps> = props => {
 
                     <SideCodeButton
                         editorState={editorState}
+                        editorRef={editorRef}
                         onChange={onChange}
+                        closeSider={setFalse}
                     />
                 </TransitionGroup>
             )}

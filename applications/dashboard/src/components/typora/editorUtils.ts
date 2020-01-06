@@ -17,6 +17,12 @@ export const getContentBlock = (editorState: EditorState): ContentBlock => {
     return contentBlock
 }
 
+interface INewBlockOptions<T extends Object> {
+    blockType?: BlockType
+    blockData?: T
+    position?: 'before' | 'after'
+}
+
 /**
  * add a new content block after current content block
  *
@@ -25,11 +31,23 @@ export const getContentBlock = (editorState: EditorState): ContentBlock => {
  *
  * @returns {EditorState} new editor state
  */
-export const addNewContentBlock = (
+export const addNewContentBlock = <T>(
     editorState: EditorState,
-    blockType = BlockType.unstyled,
-    blockData = {}
+    option: INewBlockOptions<T> = {}
 ): EditorState => {
+    const {
+        blockType = BlockType.unstyled,
+        blockData = {},
+        position = 'after'
+    } = option
+
+    const insertBefore = position === 'before'
+    const insertAfter = position === 'after'
+
+    if (!insertBefore && !insertAfter) {
+        throw new Error('option.position is invalid')
+    }
+
     const contentState = editorState.getCurrentContent()
     const contentBlockMap = contentState.getBlockMap()
     const selectionState = editorState.getSelection()
@@ -50,6 +68,7 @@ export const addNewContentBlock = (
         .rest()
 
     const newContentBlockKey = genKey()
+
     const newContentBlock = new ContentBlock({
         key: newContentBlockKey,
         type: blockType,
@@ -62,23 +81,35 @@ export const addNewContentBlock = (
     const newBlockMap = beforeBlocks
         .concat(
             [
-                [startKey, contentBlock],
-                [newContentBlockKey, newContentBlock]
-            ],
+                insertAfter && [startKey, contentBlock],
+                [newContentBlockKey, newContentBlock],
+                insertBefore && [startKey, contentBlock]
+            ].filter(Boolean),
             afterBlocks
         )
         .toOrderedMap()
 
     const newContentState = contentState.merge({
         blockMap: newBlockMap,
-        selectionBefore: selectionState,
-        selectionAfter: selectionState.merge({
-            anchorKey: newContentBlockKey,
-            anchorOffset: 0,
-            focusKey: newContentBlockKey,
-            focusOffset: 0,
-            isBackward: false
-        })
+        selectionBefore: insertAfter
+            ? selectionState
+            : insertBefore &&
+              selectionState.merge({
+                  anchorKey: newContentBlockKey,
+                  anchorOffset: 0,
+                  focusKey: newContentBlockKey,
+                  focusOffset: 0,
+                  isBackward: false
+              }),
+        selectionAfter: insertAfter
+            ? selectionState.merge({
+                  anchorKey: newContentBlockKey,
+                  anchorOffset: 0,
+                  focusKey: newContentBlockKey,
+                  focusOffset: 0,
+                  isBackward: false
+              })
+            : insertBefore && selectionState
     }) as ContentState
 
     return EditorState.push(editorState, newContentState, 'insert-fragment')

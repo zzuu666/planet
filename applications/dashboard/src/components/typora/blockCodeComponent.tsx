@@ -18,7 +18,7 @@ export const BlockCodeComponent: FC<IProps> = props => {
     const perRef = useRef<HTMLPreElement>(null)
 
     useEffect(() => {
-        monaco.editor.colorizeElement(perRef.current)
+        monaco.editor.colorizeElement(perRef.current!, {})
     }, [])
 
     return (

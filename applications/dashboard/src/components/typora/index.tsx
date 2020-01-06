@@ -49,17 +49,19 @@ const extendBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap)
  */
 const useAutoFocus = (
     editorState: EditorState,
-    editorRef: RefObject<Editor>
+    editorRef: RefObject<Editor>,
+    shouldFocus: boolean
 ) => {
     useEffect(() => {
-        if (!editorRef.current) return
+        if (!editorRef.current || !shouldFocus) return
 
+        console.log('f')
         const selectionState = editorState.getSelection()
 
         if (!selectionState.getHasFocus()) {
             editorRef.current.focus()
         }
-    }, [editorState, editorRef])
+    }, [editorState, editorRef, shouldFocus])
 }
 
 export const Typora = React.memo(props => {
@@ -75,13 +77,14 @@ export const Typora = React.memo(props => {
         blockClasses
     ])
 
-    // useAutoFocus(editorState, editorRef)
-
     const [showToolbar, { setTrue, setFalse }] = useBoolean(false)
+
     const [
         showSidebar,
         { setTrue: setSidebarShow, setFalse: setSidebarHide }
     ] = useBoolean(false)
+
+    useAutoFocus(editorState, editorRef, showToolbar)
 
     const handleKeyCommand = useCallback(
         (command: EditorCommand, prevEditorState: EditorState) => {
@@ -172,6 +175,7 @@ export const Typora = React.memo(props => {
             />
             <SideButton
                 editorState={editorState}
+                editorRef={editorRef}
                 onChange={setEditorState}
                 onHide={setSidebarHide}
                 onShow={setSidebarShow}

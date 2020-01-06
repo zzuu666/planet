@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect } from 'react'
+import React, { FC, useCallback } from 'react'
 import CodeRounded from '@planet-ui/icons/build/CodeRounded'
 import { editor as Editor } from 'monaco-editor'
 
@@ -13,7 +13,7 @@ import { addNewContentBlock } from '../editorUtils'
 import { BlockType } from '../blockTypes'
 
 export const SideCodeButton: FC<ISideButtonProps> = props => {
-    const { editorState, onChange } = props
+    const { editorState, onChange, closeSider, editorRef } = props
     const [showModal, { setFalse, setTrue }] = useBoolean(false)
 
     const handleClick = useCallback(() => {
@@ -24,15 +24,19 @@ export const SideCodeButton: FC<ISideButtonProps> = props => {
         (editor: Editor.IStandaloneCodeEditor, language) => {
             const code = editor.getValue()
 
-            const newEditorState = addNewContentBlock(
-                editorState,
-                BlockType.code,
-                { lang: language, code }
-            )
+            const newEditorState = addNewContentBlock(editorState, {
+                blockType: BlockType.code,
+                blockData: { lang: language, code },
+                position: 'before'
+            })
             onChange && onChange(newEditorState)
             setFalse()
+            closeSider && closeSider()
+            setTimeout(() => {
+                editorRef.current?.focus()
+            }, 0)
         },
-        [editorState, onChange, setFalse]
+        [editorState, onChange, setFalse, closeSider, editorRef]
     )
 
     return (

@@ -98,7 +98,7 @@ const ItalicIcon = SvgIconFactory(FormatItalicRounded)
 const QuoteIcon = SvgIconFactory(FormatQuoteRounded)
 
 export const ToolBar: FC<IToolBarProps> = props => {
-    const { editorState, onChange, onClose, onOpen, show } = props
+    const { editorState, onChange, onClose, onOpen, show, focus } = props
 
     const classes = useStyles()
 
