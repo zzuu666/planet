@@ -8,6 +8,7 @@ export enum BlockType {
     image = 'atomic:image',
     code = 'atomic:code',
     title = 'title',
+    break = 'break',
 
     /** core draft block type  */
     unstyled = 'unstyled',
