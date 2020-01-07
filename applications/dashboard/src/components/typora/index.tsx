@@ -10,14 +10,13 @@ import React, {
 import {
     Editor,
     EditorState,
-    RichUtils,
     DefaultDraftBlockRenderMap,
     DraftHandleValue
 } from 'draft-js'
 import { makeStyles } from '@material-ui/styles'
 import { useBlockStyles, createBlockStyleFn } from './blockStyleFn'
 import { keyBindingFn } from './keyBindingFn'
-import { SideButton } from './SideButton'
+import { Sider } from './Sider'
 import { ToolBar } from './Toolbar'
 import { blockRendererFn } from './blockRendererFn'
 import { blockRenderMap } from './blockRenderMap'
@@ -29,6 +28,8 @@ import {
     getInitialEditorStateIfHasCache
 } from './editorUtils'
 import { createtHandleKeyCommand } from './handleKeyCommand'
+import { SideCodeButton } from './sidebar/code'
+import { SiderBreakButton } from './sidebar/Break'
 
 import 'draft-js/dist/Draft.css'
 import { BlockType } from './blockTypes'
@@ -82,6 +83,8 @@ export const Typora = React.memo(props => {
         blockClasses
     ])
 
+    const siderButtons = useMemo(() => [SideCodeButton, SiderBreakButton], [])
+
     const [showToolbar, { setTrue, setFalse }] = useBoolean(false)
 
     const [
@@ -110,12 +113,12 @@ export const Typora = React.memo(props => {
 
             const blockType = contentBlock.getType()
 
-            if (blockType === BlockType.title) {
+            if (
+                blockType === BlockType.title ||
+                blockType === BlockType.break ||
+                blockType === BlockType.code
+            ) {
                 setEditorState(addNewContentBlock(prevEditorState))
-                return 'handled'
-            }
-
-            if (blockType === BlockType.code) {
                 return 'handled'
             }
 
@@ -124,21 +127,8 @@ export const Typora = React.memo(props => {
         []
     )
 
-    // make eidtor be focused after click toolbar
-    const handleContainerClick = useCallback(() => {
-        if (editorRef.current === null) return
-
-        // TODO remove selection range
-
-        // focus lead to editorState changed
-        // use settimeout avoid race conditions
-        // setTimeout(() => {
-        //     editorRef.current && editorRef.current.focus()
-        // }, 0)
-    }, [])
-
     return (
-        <div className={classes.root} onClick={handleContainerClick}>
+        <div className={classes.root}>
             <Editor
                 ref={editorRef}
                 editorState={editorState}
@@ -151,13 +141,14 @@ export const Typora = React.memo(props => {
                 keyBindingFn={keyBindingFn}
                 placeholder="Tell your story"
             />
-            <SideButton
+            <Sider
                 editorState={editorState}
                 editorRef={editorRef}
                 onChange={setEditorState}
                 onHide={setSidebarHide}
                 onShow={setSidebarShow}
                 show={showSidebar}
+                buttons={siderButtons}
             />
             <ToolBar
                 show={showToolbar}

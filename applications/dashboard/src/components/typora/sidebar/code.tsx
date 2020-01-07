@@ -13,7 +13,13 @@ import { addNewContentBlock } from '../editorUtils'
 import { BlockType } from '../blockTypes'
 
 export const SideCodeButton: FC<ISideButtonProps> = props => {
-    const { editorState, onChange, closeSider, editorRef } = props
+    const {
+        editorState,
+        onChange,
+        closeSider,
+        editorRef,
+        defaultClassName
+    } = props
     const [showModal, { setFalse, setTrue }] = useBoolean(false)
 
     const handleClick = useCallback(() => {
@@ -41,7 +47,11 @@ export const SideCodeButton: FC<ISideButtonProps> = props => {
 
     return (
         <>
-            <IconButton icon={CodeRounded} onClick={handleClick} />
+            <IconButton
+                className={defaultClassName}
+                icon={CodeRounded}
+                onClick={handleClick}
+            />
             <Modal show={showModal} onClose={setFalse}>
                 <MonacoEditor onSave={onMonacoSaved} />
             </Modal>
