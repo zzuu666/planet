@@ -8,7 +8,7 @@ interface IProps {
 export const BlockImageComponent: FC<IProps> = props => {
     const { block } = props
 
-    const url = block.getData().get('url')
+    const src = block.getData().get('src')
 
-    return <img src={url} alt="img" />
+    return <img src={src} alt="img" />
 }

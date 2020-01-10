@@ -30,6 +30,7 @@ import {
 import { createtHandleKeyCommand } from './handleKeyCommand'
 import { SideCodeButton } from './sidebar/code'
 import { SiderBreakButton } from './sidebar/Break'
+import { SiderImageButton } from './sidebar/Image'
 
 import 'draft-js/dist/Draft.css'
 import { BlockType } from './blockTypes'
@@ -83,7 +84,10 @@ export const Typora = React.memo(props => {
         blockClasses
     ])
 
-    const siderButtons = useMemo(() => [SideCodeButton, SiderBreakButton], [])
+    const siderButtons = useMemo(
+        () => [SideCodeButton, SiderBreakButton, SiderImageButton],
+        []
+    )
 
     const [showToolbar, { setTrue, setFalse }] = useBoolean(false)
 
