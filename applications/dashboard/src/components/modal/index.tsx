@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useEffect } from 'react'
+import React, { FC, useMemo, useEffect, MouseEvent } from 'react'
 import ReactDOM from 'react-dom'
 import { makeStyles } from '@material-ui/styles'
 
@@ -16,11 +16,23 @@ const useStyles = makeStyles({
 
 interface IModalProps {
     show: boolean
-    onClose: () => void
+    confirmText?: string
+    cancelText?: string
+    onClose?: () => void
+    onConfirm?: (event: MouseEvent<HTMLButtonElement>) => void
+    onCancel?: (event?: MouseEvent<HTMLButtonElement>) => void
 }
 
 export const Modal: FC<IModalProps> = props => {
-    const { children, show, onClose } = props
+    const {
+        children,
+        show,
+        confirmText,
+        cancelText,
+        onClose,
+        onCancel,
+        onConfirm
+    } = props
 
     const classes = useStyles()
 
@@ -39,7 +51,18 @@ export const Modal: FC<IModalProps> = props => {
     if (!show) return null
 
     return ReactDOM.createPortal(
-        <div className={classes.root}>{children}</div>,
+        <div className={classes.root}>
+            {children}
+            <div>
+                <button onClick={onConfirm}>{confirmText}</button>
+                <button onClick={onCancel}>{cancelText}</button>
+            </div>
+        </div>,
         container
     )
+}
+
+Modal.defaultProps = {
+    cancelText: '取消',
+    confirmText: '确认'
 }
