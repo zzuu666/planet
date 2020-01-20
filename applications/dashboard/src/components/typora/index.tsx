@@ -28,6 +28,7 @@ import {
     getInitialEditorStateIfHasCache
 } from './editorUtils'
 import { createtHandleKeyCommand } from './handleKeyCommand'
+import { createHandleBeforeInput } from './handleBeforeInput'
 import { SideCodeButton } from './sidebar/code'
 import { SiderBreakButton } from './sidebar/Break'
 import { SiderImageButton } from './sidebar/Image'
@@ -38,7 +39,7 @@ import { BlockType } from './blockTypes'
 const useStyles = makeStyles({
     root: {
         position: 'relative',
-        width: '100%',
+        width: '800px',
         padding: '0 60px'
     }
 })
@@ -103,6 +104,8 @@ export const Typora = React.memo(props => {
         []
     )
 
+    const handleBeforeInput = createHandleBeforeInput(setEditorState)
+
     /**
      * To remove some block type when return
      *
@@ -120,7 +123,8 @@ export const Typora = React.memo(props => {
             if (
                 blockType === BlockType.title ||
                 blockType === BlockType.break ||
-                blockType === BlockType.code
+                blockType === BlockType.code ||
+                blockType === BlockType.image
             ) {
                 setEditorState(addNewContentBlock(prevEditorState))
                 return 'handled'
@@ -138,6 +142,7 @@ export const Typora = React.memo(props => {
                 editorState={editorState}
                 onChange={setEditorState}
                 handleKeyCommand={handleKeyCommand}
+                handleBeforeInput={handleBeforeInput}
                 handleReturn={handleReturn}
                 blockStyleFn={blockStyleFn}
                 blockRendererFn={blockRendererFn}

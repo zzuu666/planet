@@ -4,8 +4,7 @@ import {
     ContentState,
     genKey,
     convertToRaw,
-    convertFromRaw,
-    RichUtils
+    convertFromRaw
 } from 'draft-js'
 import { Map, List } from 'immutable'
 import { BlockType } from './blockTypes'
@@ -121,6 +120,35 @@ export const addNewContentBlock = <T>(
     }) as ContentState
 
     return EditorState.push(editorState, newContentState, 'insert-fragment')
+}
+
+/**
+ * reset content block type for before input
+ *
+ */
+export const resetBlockWithType = (
+    editorState: EditorState,
+    type: BlockType
+) => {
+    const contentState = editorState.getCurrentContent()
+    const selectionState = editorState.getSelection()
+    const startKey = selectionState.getStartKey()
+    const contentBlockMap = contentState.getBlockMap()
+    const contentBlock = contentBlockMap.get(startKey)
+    const newContentBlock = contentBlock.merge({
+        type: type,
+        text: ''
+    }) as ContentBlock
+
+    const newContentState = contentState.merge({
+        blockMap: contentBlockMap.set(startKey, newContentBlock),
+        selectionAfter: selectionState.merge({
+            anchorOffset: 0,
+            focusOffset: 0
+        })
+    }) as ContentState
+
+    return EditorState.push(editorState, newContentState, 'change-block-type')
 }
 
 export const saveEditorStateToLocalStorage = (editorState: EditorState) => {

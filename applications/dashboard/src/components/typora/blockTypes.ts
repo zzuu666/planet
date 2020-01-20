@@ -12,5 +12,6 @@ export enum BlockType {
 
     /** core draft block type  */
     unstyled = 'unstyled',
-    atomic = 'atomic'
+    atomic = 'atomic',
+    unorderedListItem = 'unordered-list-item'
 }

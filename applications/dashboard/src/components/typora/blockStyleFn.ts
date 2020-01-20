@@ -23,10 +23,14 @@ export const useBlockStyles = makeStyles({
     unstyled: {
         fontSize: '16px',
         lineHeight: 2.5
+    },
+    ul: {
+        fontSize: '16px',
+        lineHeight: 2.5
     }
 })
 
-export type BlockStyleClasses = Record<'blockquote' | 'unstyled', string>
+export type BlockStyleClasses = Record<'blockquote' | 'unstyled' | 'ul', string>
 
 export const createBlockStyleFn = (classes: BlockStyleClasses) => (
     contentBlock: ContentBlock
@@ -40,6 +44,8 @@ export const createBlockStyleFn = (classes: BlockStyleClasses) => (
             return ''
         case BlockType.unstyled:
             return classes.unstyled
+        case BlockType.unorderedListItem:
+            return classes.ul
         default:
             return ''
     }
