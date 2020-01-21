@@ -1,15 +1,24 @@
 import React, { FC } from 'react'
-import { makeStyles } from '@material-ui/styles'
+import { createUseStyles } from 'react-jss'
 import { Typora } from '../../components/typora'
+import { ITheme } from '../../App'
 
-const useStyles = makeStyles<{ status: { danger: string } }>(theme => ({
+/**
+ * jss createUseStyles can't infer result type
+ * so I just use this method.
+ *
+ * https://github.com/cssinjs/jss/issues/1203
+ */
+const styles = (theme: ITheme) => ({
     text: {
         color: theme.status.danger
     }
-}))
+})
+
+const useStyles = createUseStyles<keyof ReturnType<typeof styles>>(styles)
 
 export const HomePage: FC = props => {
-    const classes = useStyles({})
+    const classes = useStyles()
 
     return (
         <div>

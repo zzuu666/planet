@@ -13,7 +13,7 @@ import {
     DefaultDraftBlockRenderMap,
     DraftHandleValue
 } from 'draft-js'
-import { makeStyles } from '@material-ui/styles'
+import { createUseStyles } from 'react-jss'
 import { useBlockStyles, createBlockStyleFn } from './blockStyleFn'
 import { keyBindingFn } from './keyBindingFn'
 import { Sider } from './Sider'
@@ -36,7 +36,7 @@ import { SiderImageButton } from './sidebar/Image'
 import 'draft-js/dist/Draft.css'
 import { BlockType } from './blockTypes'
 
-const useStyles = makeStyles({
+const useStyles = createUseStyles({
     root: {
         position: 'relative',
         width: '800px',

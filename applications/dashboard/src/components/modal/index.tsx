@@ -1,8 +1,8 @@
 import React, { FC, useMemo, useEffect, MouseEvent } from 'react'
 import ReactDOM from 'react-dom'
-import { makeStyles } from '@material-ui/styles'
+import { createUseStyles } from 'react-jss'
 
-const useStyles = makeStyles({
+const useStyles = createUseStyles({
     root: {
         position: 'fixed',
         top: 0,

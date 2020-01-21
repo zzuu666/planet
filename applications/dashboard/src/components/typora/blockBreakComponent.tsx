@@ -1,10 +1,10 @@
 import React, { FC } from 'react'
-import { makeStyles } from '@material-ui/styles'
+import { createUseStyles } from 'react-jss'
 
 /**
  * TODO: standard margin
  */
-const useStyles = makeStyles({
+const useStyles = createUseStyles({
     root: {
         position: 'relative',
         margin: `48px 0`,

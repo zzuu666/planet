@@ -5,7 +5,7 @@ import React, {
     SyntheticEvent,
     useEffect
 } from 'react'
-import { makeStyles } from '@material-ui/styles'
+import { createUseStyles } from 'react-jss'
 import {
     EditorState,
     RichUtils,
@@ -20,7 +20,7 @@ import FormatQuoteRounded from '@planet-ui/icons/build/FormatQuoteRounded'
 import { SvgIconFactory, ISvgIconProps } from './SvgIcon'
 import { useHash } from '../../hooks/useHash'
 
-const useStyles = makeStyles({
+const useStyles = createUseStyles({
     root: {
         position: 'fixed',
         display: 'flex',

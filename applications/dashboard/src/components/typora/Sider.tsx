@@ -7,7 +7,7 @@ import React, {
     RefObject,
     ComponentType
 } from 'react'
-import { makeStyles } from '@material-ui/styles'
+import { createUseStyles } from 'react-jss'
 import { EditorState, Editor } from 'draft-js'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import clsx from 'clsx'
@@ -22,7 +22,7 @@ import { useBoolean } from '../../hooks/useBoolean'
 
 import { ISideButtonProps } from './sidebar/helper'
 
-const useStyles = makeStyles({
+const useStyles = createUseStyles({
     root: {
         position: 'absolute',
         display: 'flex',

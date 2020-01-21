@@ -1,6 +1,13 @@
 import React, { FC } from 'react'
-import { makeStyles, ThemeProvider } from '@material-ui/styles'
+import { ThemeProvider } from 'react-jss'
 import { HomePage } from './pages/home/index'
+
+export interface ITheme {
+    status: {
+        danger: string
+        normal: string
+    }
+}
 
 const theme = {
     status: {

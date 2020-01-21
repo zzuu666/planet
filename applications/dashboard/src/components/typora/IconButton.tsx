@@ -6,11 +6,11 @@ import React, {
     useMemo
 } from 'react'
 import clsx from 'clsx'
-import { makeStyles } from '@material-ui/styles'
+import { createUseStyles } from 'react-jss'
 import { buttonStyle } from './commonStyles'
 import { SvgIconFactory } from './SvgIcon'
 
-const useStyles = makeStyles({
+const useStyles = createUseStyles({
     root: {
         ...buttonStyle,
         display: 'flex',

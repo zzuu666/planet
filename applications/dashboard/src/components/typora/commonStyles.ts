@@ -1,6 +1,6 @@
-import { CSSProperties } from '@material-ui/styles'
+import { JssStyle } from 'jss'
 
-export const buttonStyle: CSSProperties = {
+export const buttonStyle: JssStyle = {
     outline: 'none',
     border: 'none',
     padding: 0

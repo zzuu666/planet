@@ -1,8 +1,8 @@
-import { makeStyles } from '@material-ui/styles'
+import { createUseStyles } from 'react-jss'
 import { ContentBlock } from 'draft-js'
 import { BlockType } from './blockTypes'
 
-export const useBlockStyles = makeStyles({
+export const useBlockStyles = createUseStyles({
     blockquote: {
         display: 'flex',
         color: '',
