@@ -1,6 +1,9 @@
-import React, { FC, useRef, useEffect } from 'react'
+import React, { FC } from 'react'
 import { ContentBlock, EditorBlock } from 'draft-js'
-import * as monaco from 'monaco-editor'
+import 'prismjs/themes/prism-tomorrow.css'
+import 'prismjs/plugins/line-highlight/prism-line-highlight.css'
+import 'prismjs'
+import 'prismjs/plugins/line-highlight/prism-line-highlight'
 
 interface IProps {
     block: ContentBlock
@@ -15,15 +18,10 @@ export const BlockCodeComponent: FC<IProps> = props => {
     const { block } = props
     const lang = block.getData().get('lang')
     const code = block.getData().get('code')
-    const perRef = useRef<HTMLPreElement>(null)
-
-    useEffect(() => {
-        monaco.editor.colorizeElement(perRef.current!, {})
-    }, [])
 
     return (
-        <pre ref={perRef} data-lang={lang}>
-            {code}
+        <pre data-line={1}>
+            <code className={`language-${lang}`}>{code}</code>
         </pre>
     )
 }
