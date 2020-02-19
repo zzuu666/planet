@@ -11,6 +11,7 @@
         {
             "files": [
                 "applications/dashboard/**/*",
+                "applications/bamboo/**/*",
                 "packages/planet-ui-icons/**/*"
             ],
             "extends": "react-app"
