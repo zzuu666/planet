@@ -14,7 +14,8 @@
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production BABEL_ENV=cjs babel --config-file ../../babel.config.js ./src --out-dir ./build --extensions \".tsx\"",
-    "prebuild": "rimraf build",
+    "prebuild": "rimraf build && yarn types",
+    "types": "tsc --project tsconfig.json",
     "release": "npm run build && npm publish build --tag latest"
   },
   "bugs": {

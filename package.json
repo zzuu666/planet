@@ -14,7 +14,8 @@
     "scripts": {
         "commit": "git-cz",
         "build:dashboard": "node scripts/react/build.js applications/dashboard",
-        "start:dashboard": "node scripts/react/start.js applications/dashboard"
+        "start:dashboard": "node scripts/react/start.js applications/dashboard",
+        "build": "lerna run build"
     },
     "devDependencies": {
         "@babel/cli": "^7.7.7",

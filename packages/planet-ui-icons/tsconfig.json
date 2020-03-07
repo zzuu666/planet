@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "lib": ["DOM", "ESNext"],
+        "target": "es5",
+        "esModuleInterop": true,
+        "jsx": "react",
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        "declarationDir": "build/"
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
