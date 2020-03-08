@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
 import Head from 'next/head'
+import { Container } from '../container'
 
 interface IProps {
     title?: string
@@ -9,15 +10,15 @@ export const Layout: FC<IProps> = props => {
     const { title, children } = props
 
     return (
-        <div>
+        <>
             <Head>
                 <title>{title}</title>
             </Head>
-            {children}
-        </div>
+            <Container>{children}</Container>
+        </>
     )
 }
 
 Layout.defaultProps = {
-    title: '走走游游大魔王'
+    title: '大白话家'
 }
