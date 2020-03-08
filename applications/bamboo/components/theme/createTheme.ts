@@ -1,6 +1,7 @@
 import { IPlanetTheme } from './index'
 import { createSpacing } from './createSpacing'
 import { createBreakpoints } from './createBreakpoints'
+import { createTypography } from './createTypography'
 
 interface ICreateThemeOptions {
     spacing?: number
@@ -15,9 +16,11 @@ export const createTheme = (
 ): IPlanetTheme => {
     const spacing = createSpacing(options.spacing || 8)
     const breakpoionts = createBreakpoints()
+    const typography = createTypography()
 
     return {
         spacing,
-        breakpoionts
+        breakpoionts,
+        typography
     }
 }

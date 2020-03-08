@@ -1,7 +1,8 @@
 import React, { FC } from 'react'
 import { createUseStyles } from 'react-jss'
-import { Image } from '../image/index'
+import { Image } from '../image'
 import { IPlanetTheme } from '../theme/index'
+import { Typography } from '../typography'
 
 interface IProfileProps {
     avatar: string
@@ -36,8 +37,8 @@ export const Profile: FC<IProfileProps> = props => {
                 className={classes.image}
             />
             <div className={classes.flex}>
-                <p>{main}</p>
-                <p>{desc}</p>
+                <Typography variant="smalltitle">{main}</Typography>
+                <Typography>{desc}</Typography>
             </div>
         </div>
     )
