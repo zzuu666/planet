@@ -22,6 +22,7 @@ type GetFunction = (key: Breakpoint) => number
 export interface IThemeBreakpoints {
     up: UpFunction
     get: GetFunction
+    keys: string[]
 }
 
 type CreateBreakpointsFunction = (
@@ -40,8 +41,11 @@ export const createBreakpoints: CreateBreakpointsFunction = (
 
     const get: GetFunction = key => values[key]
 
+    const keys: string[] = Object.keys(values)
+
     return {
         up,
-        get
+        get,
+        keys
     }
 }
