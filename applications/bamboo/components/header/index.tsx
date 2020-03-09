@@ -4,7 +4,9 @@ import { createUseStyles } from 'react-jss'
 const useStyles = createUseStyles(theme => ({
     root: {
         display: 'flex',
-        justifyContent: 'space-bewteen'
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        height: '64px'
     }
 }))
 

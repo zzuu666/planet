@@ -13,7 +13,8 @@ interface IProfileProps {
 const useStyles = createUseStyles<IPlanetTheme>(theme => ({
     container: {
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
+        padding: `${theme.spacing(1)}px 0`
     },
     flex: {
         flex: '1 0 auto'
