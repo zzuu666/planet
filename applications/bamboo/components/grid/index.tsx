@@ -94,7 +94,7 @@ const useStyles = createUseStyles<IPlanetTheme>(theme => ({
         boxSizing: 'border-box',
         margin: '0' // For instance, it's useful when used with a `figure` element.
     },
-    ...theme.breakpoionts.keys.reduce((accumulator, key) => {
+    ...theme.breakpoints.keys.reduce((accumulator, key) => {
         // Use side effect over immutability for better performance.
         generateGrid(accumulator, theme, key)
         return accumulator

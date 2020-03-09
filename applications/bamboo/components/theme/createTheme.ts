@@ -15,12 +15,12 @@ export const createTheme = (
     options: ICreateThemeOptions = defaultOptions
 ): IPlanetTheme => {
     const spacing = createSpacing(options.spacing || 8)
-    const breakpoionts = createBreakpoints()
+    const breakpoints = createBreakpoints()
     const typography = createTypography()
 
     return {
         spacing,
-        breakpoionts,
+        breakpoints,
         typography
     }
 }

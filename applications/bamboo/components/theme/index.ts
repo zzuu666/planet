@@ -5,7 +5,7 @@ import { TypographyTheme } from './createTypography'
 
 export interface IPlanetTheme {
     spacing: SpacingFuntion
-    breakpoionts: IThemeBreakpoints
+    breakpoints: IThemeBreakpoints
     typography: TypographyTheme
 }
 

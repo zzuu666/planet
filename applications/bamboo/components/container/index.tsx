@@ -7,13 +7,13 @@ const useStyles = createUseStyles<IPlanetTheme>(theme => ({
         margin: '0 auto',
         padding: `0 ${theme.spacing(2)}px`,
 
-        [theme.breakpoionts.up('sm')]: {
+        [theme.breakpoints.up('sm')]: {
             maxWidth: '480px'
         },
-        [theme.breakpoionts.up('md')]: {
+        [theme.breakpoints.up('md')]: {
             maxWidth: '768px'
         },
-        [theme.breakpoionts.up('lg')]: {
+        [theme.breakpoints.up('lg')]: {
             maxWidth: '1024px'
         }
     }
