@@ -31,7 +31,20 @@ interface IGridProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const GRID_SIZES: BreakPointType[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
-const generateGrid = (globalStyles, theme, breakpoint) => {
+const hackJSSIssue = (
+    globalStyles,
+    theme: IPlanetTheme,
+    styles: Record<string, object>,
+    breakpoints
+) => {
+    Object.entries(styles).forEach(([key, value]) => {
+        globalStyles[key] = {
+            [theme.breakpoints.up(breakpoints)]: value
+        }
+    })
+}
+
+const generateGrid = (globalStyles, theme: IPlanetTheme, breakpoint) => {
     const styles = {}
 
     for (let i = 0, len = GRID_SIZES.length; i < len; i += 1) {
@@ -76,7 +89,15 @@ const generateGrid = (globalStyles, theme, breakpoint) => {
     if (breakpoint === 'xs') {
         Object.assign(globalStyles, styles)
     } else {
-        globalStyles[theme.breakpoints.up(breakpoint)] = styles
+        /**
+         * Todo remove hackJssIssue
+         *
+         * there is an issus https://github.com/cssinjs/jss/issues/1288
+         * when use `@media` in hooks
+         */
+        // globalStyles[theme.breakpoints.up(breakpoint)] = styles
+
+        hackJSSIssue(globalStyles, theme, styles, breakpoint)
     }
 }
 
