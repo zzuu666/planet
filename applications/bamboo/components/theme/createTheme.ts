@@ -5,22 +5,31 @@ import { createTypography } from './createTypography'
 
 interface ICreateThemeOptions {
     spacing?: number
+    globalStylePrefix?: string
 }
 
 const defaultOptions: ICreateThemeOptions = {
-    spacing: 8
+    spacing: 8,
+    globalStylePrefix: 'planet'
 }
 
 export const createTheme = (
-    options: ICreateThemeOptions = defaultOptions
+    options: ICreateThemeOptions = {}
 ): IPlanetTheme => {
-    const spacing = createSpacing(options.spacing || 8)
+    const megredOption = {
+        ...options,
+        ...defaultOptions
+    }
+
+    const spacing = createSpacing(megredOption.spacing || 8)
     const breakpoints = createBreakpoints()
     const typography = createTypography()
+    const globalStylePrefix = megredOption.globalStylePrefix
 
     return {
         spacing,
         breakpoints,
-        typography
+        typography,
+        globalStylePrefix
     }
 }

@@ -7,6 +7,7 @@ export interface IPlanetTheme {
     spacing: SpacingFuntion
     breakpoints: IThemeBreakpoints
     typography: TypographyTheme
+    globalStylePrefix: string
 }
 
 export { createTheme }

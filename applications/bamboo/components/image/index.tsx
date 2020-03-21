@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { createUseStyles } from 'react-jss'
 import clsx from 'clsx'
 
-type ImageRatio = '1x1' | '16x9'
+type ImageRatio = '1x1' | '16x9' | '3x2'
 
 interface IImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
     around?: boolean
@@ -25,8 +25,17 @@ const useStyles = createUseStyles(theme => ({
     },
     inner: {
         position: 'relative',
-        paddingBottom: props => ratioToPadding(props.ratio),
-        width: '100%'
+        width: '100%',
+
+        '&-1x1': {
+            paddingBottom: '100%'
+        },
+        '&-16x9': {
+            paddingBottom: '56.25%'
+        },
+        '&-3x2': {
+            paddingBottom: '66.66%'
+        }
     },
     img: {
         position: 'absolute',
@@ -38,12 +47,12 @@ const useStyles = createUseStyles(theme => ({
 }))
 
 export const Image: FC<IImageProps> = props => {
-    const { around, alt, className, ...others } = props
+    const { around, alt, className, ratio, ...others } = props
     const classes = useStyles(props)
 
     return (
         <div className={clsx(classes.container, className)}>
-            <div className={classes.inner}>
+            <div className={clsx(classes.inner, `${classes.inner}-${ratio}`)}>
                 <img className={classes.img} alt={alt} {...others} />
             </div>
         </div>

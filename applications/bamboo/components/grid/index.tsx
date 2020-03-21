@@ -25,8 +25,10 @@ interface IGridProps extends React.HTMLAttributes<HTMLDivElement> {
     md?: BreakPointType
     lg?: BreakPointType
     xl?: BreakPointType
+    spacing?: number
     container?: boolean
     item?: boolean
+    direction?: 'column' | 'row'
 }
 
 const GRID_SIZES: BreakPointType[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
@@ -101,6 +103,37 @@ const generateGrid = (globalStyles, theme: IPlanetTheme, breakpoint) => {
     }
 }
 
+const SPACINGS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+function getOffset(val, div = 1) {
+    const parse = parseFloat(val)
+    return `${parse / div}${String(val).replace(String(parse), '') || 'px'}`
+}
+
+function generateGutter(theme, breakpoint) {
+    const styles = {}
+
+    SPACINGS.forEach(spacing => {
+        const themeSpacing = theme.spacing(spacing)
+
+        if (themeSpacing === 0) {
+            return
+        }
+
+        styles[`spacing-${breakpoint}-${spacing}`] = {
+            marginRight: `-${getOffset(themeSpacing, 2)}`,
+            marginLeft: `-${getOffset(themeSpacing, 2)}`,
+            width: `calc(100% + ${getOffset(themeSpacing)})`,
+            '& > $item': {
+                paddingLeft: getOffset(themeSpacing, 2),
+                paddingRight: getOffset(themeSpacing, 2)
+            }
+        }
+    })
+
+    return styles
+}
+
 const useStyles = createUseStyles<IPlanetTheme>(theme => ({
     root: {},
     /* Styles applied to the root element if `container={true}`. */
@@ -115,21 +148,40 @@ const useStyles = createUseStyles<IPlanetTheme>(theme => ({
         boxSizing: 'border-box',
         margin: '0' // For instance, it's useful when used with a `figure` element.
     },
+    /* Styles applied to the root element if `direction="column"`. */
+    'direction-xs-column': {
+        flexDirection: 'column'
+    },
     ...theme.breakpoints.keys.reduce((accumulator, key) => {
         // Use side effect over immutability for better performance.
         generateGrid(accumulator, theme, key)
         return accumulator
-    }, {})
+    }, {}),
+    ...generateGutter(theme, 'xs')
 }))
 
 export const Grid: FC<IGridProps> = props => {
-    const { xs, sm, md, lg, xl, container, item, children, className } = props
+    const {
+        xs,
+        sm,
+        md,
+        lg,
+        xl,
+        container,
+        item,
+        spacing,
+        children,
+        className,
+        direction
+    } = props
 
     const classes = useStyles()
 
     const gridClassName = clsx(className, {
-        [classes.container]: container,
+        [classes.container]: container && !item,
         [classes.item]: item,
+        [classes[`spacing-xs-${String(spacing)}`]]: container && !item,
+        [classes[`direction-xs-${String(direction)}`]]: direction !== 'row',
         [classes[`grid-xs-${String(xs)}`]]: xs !== false,
         [classes[`grid-sm-${String(sm)}`]]: sm !== false,
         [classes[`grid-md-${String(md)}`]]: md !== false,
@@ -141,5 +193,12 @@ export const Grid: FC<IGridProps> = props => {
 }
 
 Grid.defaultProps = {
-    container: true
+    container: true,
+    spacing: 0,
+    direction: 'row',
+    xs: false,
+    sm: false,
+    md: false,
+    lg: false,
+    xl: false
 }

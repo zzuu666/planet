@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { AppProps } from 'next/app'
 import { ThemeProvider } from 'react-jss'
 import { createTheme } from '../components/theme/index'
+import { GapGlobalStyles } from '../components/styles/gap'
 
 import '../components/styles/baseline.css'
 
@@ -17,6 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     return (
         <ThemeProvider theme={theme}>
+            <GapGlobalStyles />
             <Component {...pageProps} />
         </ThemeProvider>
     )

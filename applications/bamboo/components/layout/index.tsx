@@ -13,6 +13,7 @@ export const Layout: FC<IProps> = props => {
         <>
             <Head>
                 <title>{title}</title>
+                <link rel="icon" type="image/svg" href="/logo.svg"></link>
             </Head>
             <Container>{children}</Container>
         </>

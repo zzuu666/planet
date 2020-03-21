@@ -8,6 +8,7 @@ type VariantType =
     | 'p'
     | 'subp'
     | 'smalltitle'
+    | 'description'
 
 interface TypographyConfig {
     fontSize: number
@@ -24,11 +25,12 @@ const typoTypoFontSizeMap: Record<VariantType, number> = {
     h2: 28,
     h3: 24,
     h4: 20,
-    title: 20,
-    subtitle: 16,
+    title: 24,
+    subtitle: 20,
     p: 14,
     subp: 12,
-    smalltitle: 16
+    smalltitle: 16,
+    description: 14
 }
 
 const boldTypo = ['h1', 'h2', 'h3', 'h4', 'title', 'smalltitle']
