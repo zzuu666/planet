@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="160px" height="160px" viewBox="0 0 160 160" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="128px" height="128px" viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
     <title>切片</title>
     <desc>Created with Sketch.</desc>
     <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="编组备份" transform="translate(43.000000, 24.000000)" stroke="#F0A1A8" stroke-width="8">
-            <path d="M72.1202119,56 C72.1202119,34.0839779 57.9160221,0 36,0 C14.0839779,0 0.287396383,34.0839779 0.287396383,56 L72.1202119,56 Z" id="路径备份-3" transform="translate(36.203804, 28.000000) scale(1, -1) translate(-36.203804, -28.000000) "></path>
-            <path d="M71.8328155,112 C71.8328155,90.0839779 57.6286257,56 35.7126036,56 C13.7965815,56 0,90.0839779 0,112 L71.8328155,112 Z" id="路径备份-4"></path>
+        <g id="编组备份" transform="translate(27.000000, 8.000000)" stroke="#F0A1A8" stroke-width="8">
+            <path d="M72.1202119,56 C72.1202119,34.0839779 57.9160221,0 36,0 C14.0839779,0 0.287396383,34.0839779 0.287396383,56 L72.1202119,56 Z" id="路径备份-3" fill="#F0A1A8" transform="translate(36.203804, 28.000000) scale(1, -1) translate(-36.203804, -28.000000) "></path>
+            <path d="M71.8328155,112 C71.8328155,90.0839779 57.6286257,56 35.7126036,56 C13.7965815,56 -3.55271368e-14,90.0839779 -3.55271368e-14,112 L71.8328155,112 Z" id="路径备份-4"></path>
         </g>
     </g>
 </svg>
