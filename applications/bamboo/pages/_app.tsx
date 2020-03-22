@@ -5,6 +5,8 @@ import { createTheme } from '../components/theme/index'
 import { GapGlobalStyles } from '../components/styles/gap'
 
 import '../components/styles/baseline.css'
+import '../components/styles/markdown.css'
+import 'prismjs/themes/prism-tomorrow.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
     useEffect(() => {

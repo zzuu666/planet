@@ -36,11 +36,11 @@ const IndexPage: NextPage<IProps> = props => {
                 avatar={
                     'https://zzuucos-1255357441.file.myqcloud.com/blog-images/1583594036382-SU1HXzYy.jpeg'
                 }
-                main="走走游游的大白话家"
+                main="走走游游"
                 desc="其实我是一名产品经理"
             />
             <ArticleBig className={classes.gap} {...articles[0]} link={''} />
-            <Grid spacing={3}>
+            <Grid spacing={2}>
                 <Grid item md={4}>
                     <ArticleCard
                         title={articles[0].title}
