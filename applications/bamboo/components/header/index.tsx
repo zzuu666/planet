@@ -1,7 +1,6 @@
 import React, { FC } from 'react'
 import { createUseStyles } from 'react-jss'
-import { Image } from '../image'
-import { Grid } from '../grid'
+import Link from 'next/link'
 
 const useStyles = createUseStyles(theme => ({
     root: {
@@ -15,7 +14,7 @@ const useStyles = createUseStyles(theme => ({
         alignItems: 'center',
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#F0A1A8'
+        color: '#ef7c81'
     }
 }))
 
@@ -23,10 +22,12 @@ export const Header: FC = props => {
     const classes = useStyles()
     return (
         <div className={classes.root}>
-            <div className={classes.right}>
-                <img src="/logo.svg" alt="site icon" width="32" />
-                大白话家
-            </div>
+            <Link href={`/`}>
+                <div className={classes.right}>
+                    <img src="/logo.svg" alt="site icon" width="32" />
+                    大白话家
+                </div>
+            </Link>
             <div>其他</div>
         </div>
     )

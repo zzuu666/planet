@@ -46,18 +46,21 @@ const useStyles = createUseStyles(theme => ({
     }
 }))
 
-export const Image: FC<IImageProps> = props => {
+export const Image: FC<IImageProps> = React.forwardRef<
+    HTMLImageElement,
+    IImageProps
+>((props, ref) => {
     const { around, alt, className, ratio, ...others } = props
     const classes = useStyles(props)
 
     return (
         <div className={clsx(classes.container, className)}>
             <div className={clsx(classes.inner, `${classes.inner}-${ratio}`)}>
-                <img className={classes.img} alt={alt} {...others} />
+                <img ref={ref} className={classes.img} alt={alt} {...others} />
             </div>
         </div>
     )
-}
+})
 
 Image.defaultProps = {
     ratio: '1x1',

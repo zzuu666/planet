@@ -10,7 +10,7 @@ export const ArticleHeader: FC<IArticleHeader> = props => {
 
     return (
         <Grid spacing={2}>
-            <Grid item md={6}>
+            <Grid item md={6} xs={12}>
                 <Typography variant="h2">{title}</Typography>
                 <Typography variant="description">{desc}</Typography>
                 <Typography variant="description">
@@ -20,7 +20,7 @@ export const ArticleHeader: FC<IArticleHeader> = props => {
                     更新于 {updatedAt}
                 </Typography>
             </Grid>
-            <Grid item md={6}>
+            <Grid item md={6} xs={12}>
                 <Image ratio="16x9" src={image} alt="article cover" />
             </Grid>
         </Grid>

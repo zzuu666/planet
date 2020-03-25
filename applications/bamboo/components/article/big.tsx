@@ -19,8 +19,12 @@ export const ArticleBig: FC<IArticleCardProps> = props => {
                 </Link>
             </Grid>
             <Grid item xs={4}>
-                <Typography variant="h2">{title}</Typography>
-                <Typography variant="description">{desc}</Typography>
+                <Typography variant="h2" gutter={2}>
+                    {title}
+                </Typography>
+                <Typography variant="description" color="secondary">
+                    {desc}
+                </Typography>
             </Grid>
         </Grid>
     )

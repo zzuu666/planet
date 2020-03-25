@@ -16,8 +16,12 @@ import {
 
 const useStyles = createUseStyles<IPlanetTheme>(theme => ({
     gap: {
-        marginBottom: `${theme.spacing(2)}px`,
+        marginBottom: `${theme.spacing(4)}px`,
         marginTop: `${theme.spacing(2)}px`
+    },
+    'big-gap': {
+        marginBottom: `${theme.spacing(4)}px`,
+        marginTop: `${theme.spacing(4)}px`
     }
 }))
 
@@ -66,7 +70,7 @@ const IndexPage: NextPage<IProps> = props => {
                     />
                 </Grid>
             </Grid>
-            <Grid>
+            <Grid className={classes['big-gap']}>
                 <Grid item md={8}>
                     {articles.map(article => (
                         <ArticleHorizontal
@@ -88,10 +92,11 @@ IndexPage.getInitialProps = async (context: NextPageContext) => {
     const res = await fetch('http://localhost:3000/graphql', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
         body: JSON.stringify({
             query: `
             query {
-                articles {
+                recommend(count: 4) {
                     id
                     title
                     desc
@@ -104,7 +109,7 @@ IndexPage.getInitialProps = async (context: NextPageContext) => {
     const json = await res.json()
 
     return {
-        articles: json.data.articles
+        articles: json.data.recommend
     }
 }
 

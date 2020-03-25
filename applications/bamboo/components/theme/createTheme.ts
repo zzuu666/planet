@@ -2,6 +2,7 @@ import { IPlanetTheme } from './index'
 import { createSpacing } from './createSpacing'
 import { createBreakpoints } from './createBreakpoints'
 import { createTypography } from './createTypography'
+import { createPalette } from './createPalette'
 
 interface ICreateThemeOptions {
     spacing?: number
@@ -25,8 +26,10 @@ export const createTheme = (
     const breakpoints = createBreakpoints()
     const typography = createTypography()
     const globalStylePrefix = megredOption.globalStylePrefix
+    const palette = createPalette()
 
     return {
+        palette,
         spacing,
         breakpoints,
         typography,

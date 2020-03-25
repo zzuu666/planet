@@ -11,16 +11,13 @@ import { Typography } from '../typography'
 const useStyles = createUseStyles<IPlanetTheme>(theme => ({
     root: {
         width: '100%',
-        marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(1)
-    },
-    bottom: {
-        marginTop: theme.spacing(1.5)
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2)
     }
 }))
 
 export const ArticleHorizontal: FC<IArticleCardProps> = props => {
-    const { image, title, desc, link } = props
+    const { image, title, desc } = props
     const classes = useStyles()
 
     return (
@@ -29,8 +26,12 @@ export const ArticleHorizontal: FC<IArticleCardProps> = props => {
                 <Image src={image} ratio="16x9" alt="article cover" />
             </Grid>
             <Grid item md={8} direction="column">
-                <Typography variant="h4">{title}</Typography>
-                <Typography>{desc}</Typography>
+                <Typography variant="h4" gutter={1}>
+                    {title}
+                </Typography>
+                <Typography variant="description" color="secondary" clamp={2}>
+                    {desc}
+                </Typography>
             </Grid>
         </Grid>
     )
