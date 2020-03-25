@@ -35,7 +35,6 @@ const IndexPage: NextPage<IProps> = props => {
 
     return (
         <Layout>
-            <Header />
             <Profile
                 avatar={
                     'https://zzuucos-1255357441.file.myqcloud.com/blog-images/1583594036382-SU1HXzYy.jpeg'

@@ -9,6 +9,8 @@ export type VariantType =
     | 'h2'
     | 'h3'
     | 'h4'
+    | 'h5'
+    | 'h6'
     | 'title'
     | 'subtitle'
     | 'p'
@@ -16,7 +18,7 @@ export type VariantType =
     | 'smalltitle'
     | 'description'
 
-type ComponentType = 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span'
+type ComponentType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span'
 
 type TypographyColorType = 'primary' | 'secondary'
 interface ITypographyProps
@@ -61,6 +63,8 @@ const variantMap: Record<VariantType, ComponentType> = {
     h2: 'h2',
     h3: 'h3',
     h4: 'h4',
+    h5: 'h5',
+    h6: 'h6',
     title: 'h3',
     subtitle: 'h4',
     p: 'p',

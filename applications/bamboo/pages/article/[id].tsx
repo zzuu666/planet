@@ -27,7 +27,6 @@ const ArticlePage: NextPage<IProps> = props => {
 
     return (
         <Layout title={article.title}>
-            <Header />
             <ArticleHeader {...article} />
             <Markdown content={article.content} />
         </Layout>

@@ -1,6 +1,8 @@
 import React, { FC } from 'react'
 import { createUseStyles } from 'react-jss'
 import { IPlanetTheme } from '../theme'
+import { Header } from '../header'
+import { Footer } from '../footer'
 
 const useStyles = createUseStyles<IPlanetTheme>(theme => ({
     container: {
@@ -23,5 +25,11 @@ export const Container: FC = props => {
     const { children } = props
     const classes = useStyles()
 
-    return <div className={classes.container}>{children}</div>
+    return (
+        <div className={classes.container}>
+            <Header></Header>
+            {children}
+            <Footer></Footer>
+        </div>
+    )
 }

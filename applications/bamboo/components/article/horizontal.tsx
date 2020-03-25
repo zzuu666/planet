@@ -26,7 +26,7 @@ export const ArticleHorizontal: FC<IArticleCardProps> = props => {
                 <Image src={image} ratio="16x9" alt="article cover" />
             </Grid>
             <Grid item md={8} direction="column">
-                <Typography variant="h4" gutter={1}>
+                <Typography variant="smalltitle" gutter={1}>
                     {title}
                 </Typography>
                 <Typography variant="description" color="secondary" clamp={2}>
