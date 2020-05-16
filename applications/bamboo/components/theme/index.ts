@@ -5,6 +5,7 @@ import { TypographyTheme } from './createTypography'
 import { IThemePalette } from './createPalette'
 
 export interface IPlanetTheme {
+    theme: 'light'
     spacing: SpacingFuntion
     breakpoints: IThemeBreakpoints
     typography: TypographyTheme

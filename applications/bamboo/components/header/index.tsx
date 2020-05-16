@@ -1,8 +1,12 @@
 import React, { FC } from 'react'
-import { createUseStyles } from 'react-jss'
+import { createUseStyles, useTheme } from 'react-jss'
+import LightIcon from '@planet-ui/icons/build/Brightness7'
+import DarkIcon from '@planet-ui/icons/build/Brightness4'
 import Link from 'next/link'
 
-const useStyles = createUseStyles(theme => ({
+import { IPlanetTheme } from '../theme'
+
+const useStyles = createUseStyles<IPlanetTheme>(theme => ({
     root: {
         display: 'flex',
         justifyContent: 'space-between',
@@ -15,11 +19,18 @@ const useStyles = createUseStyles(theme => ({
         fontSize: 24,
         fontWeight: 'bold',
         color: '#ef7c81'
+    },
+    icon: {
+        width: 28,
+        height: 28,
+        color: theme.palette.primary.main
     }
 }))
 
 export const Header: FC = props => {
     const classes = useStyles()
+    const theme = useTheme() as IPlanetTheme
+
     return (
         <div className={classes.root}>
             <Link href={`/`}>
@@ -28,7 +39,20 @@ export const Header: FC = props => {
                     大白话家
                 </div>
             </Link>
-            <div>其他</div>
+            <div>
+                {theme.theme === 'light' ? (
+                    <DarkIcon
+                        className={classes.icon}
+                        viewBox="0 0 24 24"
+                        fill={theme.palette.primary.main}
+                    ></DarkIcon>
+                ) : (
+                    <LightIcon
+                        className={classes.icon}
+                        viewBox="0 0 24 24"
+                    ></LightIcon>
+                )}
+            </div>
         </div>
     )
 }

@@ -17,18 +17,19 @@ const defaultOptions: ICreateThemeOptions = {
 export const createTheme = (
     options: ICreateThemeOptions = {}
 ): IPlanetTheme => {
-    const megredOption = {
+    const mergedOption = {
         ...options,
         ...defaultOptions
     }
 
-    const spacing = createSpacing(megredOption.spacing || 8)
+    const spacing = createSpacing(mergedOption.spacing || 8)
     const breakpoints = createBreakpoints()
     const typography = createTypography()
-    const globalStylePrefix = megredOption.globalStylePrefix
+    const globalStylePrefix = mergedOption.globalStylePrefix
     const palette = createPalette()
 
     return {
+        theme: 'light',
         palette,
         spacing,
         breakpoints,
