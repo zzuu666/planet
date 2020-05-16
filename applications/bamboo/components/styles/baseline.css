@@ -1,0 +1,49 @@
+* {
+    box-sizing: border-box;
+}
+
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+/* unify the setting of elements's margin and padding for browsers */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
+    margin: 0;
+    padding: 0;
+}
+
+/* Reset fonts for relevant elements */
+button,input,select,textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+}
+
+input[type="text"],
+textarea {
+    -webkit-appearance: none;
+}
+input {
+    outline-color: invert;
+    outline-style: none;
+    outline-width: 0px;
+    border: none;
+    border-style: none;
+    text-shadow: none;
+    -webkit-appearance: none;
+    -webkit-user-select: text;
+    outline-color: transparent;
+    box-shadow: none;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+/* Remove the clear button of a text input control in IE10+ */
+input::-ms-clear, input::-ms-reveal {
+    display: none;
+}

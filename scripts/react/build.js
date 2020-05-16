@@ -12,6 +12,16 @@ const configFactory = require('../../config/react/webpack.config')
 // Generate webpack's configuration
 const config = configFactory('production')
 
-const compiler = webpack(config)
+try {
+    const compiler = webpack(config)
 
-compiler.run()
+    // console.log(compiler)
+
+    compiler.run((err, status) => {
+        console.log(err, status)
+    })
+} catch (err) {
+    console.log(err)
+    process.exit(1)
+}
+
