@@ -1,6 +1,6 @@
 {
   "name": "@planet-ui/icons",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "planet-ui icons fork from material-ui",
   "author": "zzuu666 <zzuu666@outlook.com>",
   "homepage": "https://github.com/zzuu666/planet#readme",
@@ -22,5 +22,5 @@
     "url": "https://github.com/zzuu666/planet/issues"
   },
   "sideEffects": false,
-  "gitHead": "da72c7eba99aa92e75151bd42702de2092673455"
+  "gitHead": "18292afb552dd1da69780f186951a5967dd3366e"
 }
