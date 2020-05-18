@@ -4,8 +4,9 @@
   ],
   "command": {
     "publish": {
-      "registry": "https://registry.npmjs.org"
+      "registry": "https://registry.npmjs.org",
+      "message": "chore(release): publish %s"
     }
   },
-  "version": "0.0.2"
+  "version": "independent"
 }
